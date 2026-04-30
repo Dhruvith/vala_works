@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VALA WORKS — We Build Brands That Move Culture</title>
+  <meta name="description" content="VALA WORKS is a full-service marketing agency. Strategy. Design. Growth. We architect brand futures." />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <style>
+    :root {
+      --color-bg: #0A0A0A;
+      --color-surface: #0D0D0D;
+      --color-white: #F5F5F0;
+      --color-muted: rgba(245,245,240,0.65);
+      --color-amber: #F5A623;
+      --color-amber-glow: rgba(245,166,35,0.35);
+      --font-display: 'Syne', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+      --space-xs: 0.5rem;
+      --space-sm: 1rem;
+      --space-md: 2rem;
+      --space-lg: 4rem;
+      --space-xl: 6rem;
+      --space-2xl: 8rem;
+      --radius: 0.75rem;
+      --transition: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: auto; }
+
+    body {
+      background: var(--color-bg);
+      color: var(--color-white);
+      font-family: var(--font-body);
+      font-weight: 400;
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+      opacity: 0.035;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; }
+    p { color: var(--color-muted); }
+    a { color: inherit; text-decoration: none; }
+    img, video { max-width: 100%; display: block; }
+    ul { list-style: none; }
+    button { font-family: var(--font-body); cursor: pointer; border: none; background: none; color: inherit; }
+
+    .container { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 var(--space-md); }
+
+    /* Eyebrow */
+    .eyebrow {
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      color: var(--color-amber);
+      margin-bottom: var(--space-sm);
+    }
+
+    /* Custom Cursor */
+    .cursor-dot, .cursor-ring {
+      position: fixed;
+      top: 0; left: 0;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 10000;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s var(--transition), height 0.3s var(--transition), background 0.3s var(--transition);
+    }
+    .cursor-dot { width: 8px; height: 8px; background: var(--color-white); }
+    .cursor-ring { width: 32px; height: 32px; border: 1.5px solid var(--color-amber); }
+    @media (pointer: coarse) { .cursor-dot, .cursor-ring { display: none !important; } }
+
+    /* Navigation */
+    .navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: var(--space-sm) 0;
+      transition: background 0.4s var(--transition), backdrop-filter 0.4s var(--transition);
+    }
+    .navbar.scrolled {
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+    .navbar .container { display: flex; align-items: center; justify-content: space-between; }
+    .nav-brand {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    .nav-links { display: flex; align-items: center; gap: var(--space-lg); }
+    .nav-links a {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      position: relative;
+      padding: 4px 0;
+    }
+    .nav-links a::after {
+      content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1px;
+      background: var(--color-amber); transition: width 0.4s var(--transition);
+    }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-cta {
+      border: 1px solid var(--color-amber);
+      color: var(--color-amber);
+      padding: 0.6rem 1.4rem;
+      border-radius: 999px;
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      transition: all 0.4s var(--transition);
+    }
+    .nav-cta:hover { background: var(--color-amber); color: var(--color-bg); }
+
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      width: 28px; cursor: pointer; z-index: 110;
+    }
+    .hamburger span {
+      display: block; height: 2px; width: 100%;
+      background: var(--color-white); transition: all 0.4s var(--transition);
+    }
+    .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    .mobile-nav {
+      position: fixed; inset: 0; background: var(--color-bg);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: var(--space-lg); opacity: 0; pointer-events: none;
+      transition: opacity 0.4s var(--transition); z-index: 105;
+    }
+    .mobile-nav.open { opacity: 1; pointer-events: all; }
+    .mobile-nav a {
+      font-family: var(--font-display); font-size: 2rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex; align-items: center;
+      overflow: hidden;
+    }
+    #hero-canvas {
+      position: absolute; inset: 0; z-index: 0;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at center, rgba(10,10,10,0.2) 0%, rgba(10,10,10,0.7) 100%);
+      z-index: 1;
+    }
+    .hero-content { position: relative; z-index: 2; padding-top: 80px; }
+    .hero-eyebrow { display: inline-block; margin-bottom: var(--space-md); }
+    .hero-title {
+      font-size: clamp(3.5rem, 9vw, 8rem);
+      font-weight: 800;
+      line-height: 1.05;
+      margin-bottom: var(--space-md);
+    }
+    .hero-title .word { display: inline-block; }
+    .hero-sub {
+      max-width: 520px;
+      font-size: clamp(1rem, 1.2vw, 1.15rem);
+      margin-bottom: var(--space-lg);
+      line-height: 1.7;
+    }
+    .hero-ctas { display: flex; gap: var(--space-sm); flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.85rem 1.8rem; border-radius: 999px;
+      font-family: var(--font-display); font-weight: 600; font-size: 0.85rem;
+      text-transform: uppercase; letter-spacing: 0.08em;
+      transition: all 0.4s var(--transition);
+    }
+    .btn-amber { background: var(--color-amber); color: var(--color-bg); }
+    .btn-amber:hover { background: #e09620; transform: translateY(-2px); }
+    .btn-ghost { border: 1px solid rgba(245,245,240,0.3); color: var(--color-white); }
+    .btn-ghost:hover { border-color: var(--color-amber); color: var(--color-amber); }
+
+    .scroll-indicator {
+      position: absolute; bottom: var(--space-lg); left: 50%; transform: translateX(-50%);
+      z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 8px;
+    }
+    .scroll-line {
+      width: 1px; height: 48px; background: rgba(245,245,240,0.3);
+      position: relative; overflow: hidden;
+    }
+    .scroll-line::after {
+      content: ''; position: absolute; top: -100%; left: 0; width: 100%; height: 100%;
+      background: var(--color-amber); animation: scrollLine 2s infinite ease-in-out;
+    }
+    @keyframes scrollLine { 0% { top: -100%; } 100% { top: 200%; } }
+    .scroll-indicator span {
+      font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--color-muted);
+    }
+
+    /* Marquee */
+    .marquee {
+      background: var(--color-bg);
+      border-top: 1px solid var(--color-amber);
+      border-bottom: 1px solid var(--color-amber);
+      overflow: hidden; padding: var(--space-sm) 0;
+    }
+    .marquee-track {
+      display: flex; width: max-content;
+      animation: marqueeScroll 24s linear infinite;
+    }
+    .marquee-track span {
+      font-family: var(--font-display); font-weight: 700;
+      font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+      text-transform: uppercase; letter-spacing: 0.15em;
+      white-space: nowrap; padding: 0 var(--space-md);
+      color: var(--color-white);
+    }
+    @keyframes marqueeScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+    /* Section defaults */
+    .section { padding: var(--space-2xl) 0; }
+    .section-title {
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      font-weight: 700;
+      margin-bottom: var(--space-lg);
+    }
+
+    /* About */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-xl);
+      align-items: start;
+    }
+    .about-text p { margin-bottom: var(--space-md); font-size: 1.05rem; line-height: 1.8; }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-md);
+    }
+    .stat-card {
+      background: rgba(245,245,240,0.03);
+      border: 1px solid rgba(245,245,240,0.08);
+      border-radius: var(--radius);
+      padding: var(--space-md);
+      transition: transform 0.4s var(--transition), border-color 0.4s var(--transition);
+    }
+    .stat-card:hover { transform: translateY(-4px); border-color: var(--color-amber); }
+    .stat-number {
+      font-family: var(--font-display); font-weight: 800;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      color: var(--color-amber); line-height: 1;
+      margin-bottom: var(--space-xs);
+    }
+    .stat-label {
+      font-size: 0.85rem; color: var(--color-muted); text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* Services */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-md);
+    }
+    .service-card {
+      background: rgba(245,245,240,0.04);
+      border: 1px solid rgba(245,245,240,0.1);
+      border-radius: var(--radius);
+      padding: var(--space-lg) var(--space-md);
+      position: relative;
+      overflow: hidden;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      transition: transform 0.5s var(--transition), box-shadow 0.5s var(--transition);
+    }
+    .service-card::before {
+      content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 3px;
+      background: var(--color-amber); transition: width 0.5s var(--transition);
+    }
+    .service-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.4), 0 0 30px var(--color-amber-glow); }
+    .service-card:hover::before { width: 100%; }
+    .service-icon {
+      width: 48px; height: 48px; margin-bottom: var(--space-sm);
+      display: flex; align-items: center; justify-content: center;
+      border: 1px solid rgba(245,166,35,0.3); border-radius: 12px;
+      font-size: 1.5rem; color: var(--color-amber);
+    }
+    .service-card h3 {
+      font-size: 1.25rem; margin-bottom: var(--space-xs);
+    }
+    .service-card p { font-size: 0.9rem; line-height: 1.7; }
+
+    /* Work */
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-md);
+    }
+    .work-card {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      min-height: 420px;
+      display: flex; align-items: flex-end;
+      border: 1px solid rgba(245,245,240,0.08);
+      transition: border-color 0.4s var(--transition), box-shadow 0.4s var(--transition);
+    }
+    .work-card:nth-child(2) { min-height: 520px; margin-top: var(--space-lg); }
+    .work-card video {
+      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+      transition: filter 0.6s var(--transition); filter: saturate(0.6);
+    }
+    .work-card:hover video { filter: saturate(1); }
+    .work-card:hover { border-color: var(--color-amber); box-shadow: 0 0 40px var(--color-amber-glow); }
+    .work-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.2) 60%, transparent 100%);
+      z-index: 1;
+    }
+    .work-content { position: relative; z-index: 2; padding: var(--space-md); }
+    .work-tag {
+      display: inline-block;
+      background: var(--color-amber); color: var(--color-bg);
+      font-family: var(--font-display); font-size: 0.65rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      padding: 0.3rem 0.7rem; border-radius: 999px; margin-bottom: var(--space-xs);
+    }
+    .work-content h3 { font-size: 1.5rem; margin-bottom: var(--space-xs); }
+    .work-link {
+      font-family: var(--font-display); font-weight: 600; font-size: 0.8rem;
+      text-transform: uppercase; letter-spacing: 0.1em; color: var(--color-amber);
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      transition: gap 0.3s var(--transition);
+    }
+    .work-link:hover { gap: 0.7rem; }
+    .work-cta { text-align: center; margin-top: var(--space-xl); }
+
+    /* Process */
+    .process-wrap { position: relative; }
+    .process-steps {
+      display: flex; justify-content: space-between; gap: var(--space-md);
+      position: relative;
+    }
+    .process-line {
+      position: absolute; top: 50%; left: 0; right: 0; height: 1px;
+      border-bottom: 1px dashed rgba(245,166,35,0.25); transform: translateY(-50%);
+      z-index: 0;
+    }
+    .process-line-fill {
+      position: absolute; top: 50%; left: 0; height: 1px;
+      background: var(--color-amber); transform: translateY(-50%) scaleX(0);
+      transform-origin: left; width: 100%; z-index: 0;
+    }
+    .step {
+      position: relative; z-index: 1;
+      flex: 1; text-align: center; padding: var(--space-md);
+    }
+    .step-num {
+      font-family: var(--font-display); font-weight: 800;
+      font-size: clamp(4rem, 10vw, 7rem);
+      color: var(--color-amber); opacity: 0.12; line-height: 1;
+      position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
+      z-index: -1;
+    }
+    .step h3 {
+      font-size: 1.25rem; margin-bottom: var(--space-xs); margin-top: var(--space-lg);
+    }
+    .step p { font-size: 0.9rem; max-width: 260px; margin: 0 auto; }
+
+    /* Testimonials */
+    .testimonials-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md);
+    }
+    .testimonial {
+      background: rgba(245,245,240,0.03);
+      border: 1px solid rgba(245,245,240,0.08);
+      border-radius: var(--radius);
+      padding: var(--space-lg) var(--space-md);
+      position: relative; overflow: hidden;
+      transition: border-color 0.4s var(--transition);
+    }
+    .testimonial:hover { border-color: rgba(245,166,35,0.3); }
+    .quote-mark {
+      font-family: var(--font-display); font-weight: 800;
+      font-size: 8rem; line-height: 1;
+      color: var(--color-amber); opacity: 0.12;
+      position: absolute; top: -10px; left: 10px;
+    }
+    .testimonial p {
+      font-style: italic; font-size: 1rem; line-height: 1.8;
+      margin-bottom: var(--space-md); position: relative; z-index: 1;
+    }
+    .testimonial-author { display: flex; align-items: center; gap: var(--space-sm); }
+    .author-avatar {
+      width: 42px; height: 42px; border-radius: 50%;
+      background: var(--color-amber); color: var(--color-bg);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display); font-weight: 700; font-size: 0.9rem;
+    }
+    .author-info h4 { font-size: 0.95rem; }
+    .author-info span { font-size: 0.8rem; color: var(--color-muted); }
+
+    /* CTA Banner */
+    .cta-banner {
+      position: relative;
+      padding: var(--space-2xl) 0;
+      text-align: center;
+      overflow: hidden;
+    }
+    .cta-border {
+      position: absolute; inset: 0;
+      border-radius: var(--radius);
+      pointer-events: none;
+    }
+    .cta-border::before {
+      content: ''; position: absolute; inset: 0;
+      border-radius: inherit; padding: 1px;
+      background: linear-gradient(90deg, var(--color-amber), #ffcf66, var(--color-amber));
+      background-size: 200% 100%;
+      animation: borderGlow 3s linear infinite;
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+    }
+    @keyframes borderGlow { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+    .cta-banner h2 {
+      font-size: clamp(2.2rem, 4.5vw, 4rem);
+      margin-bottom: var(--space-sm);
+    }
+    .cta-banner p { max-width: 500px; margin: 0 auto var(--space-lg); }
+    .cta-btn {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      background: var(--color-amber); color: var(--color-bg);
+      padding: 1rem 2.4rem; border-radius: 999px;
+      font-family: var(--font-display); font-weight: 700;
+      font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.08em;
+      transition: all 0.4s var(--transition);
+    }
+    .cta-btn:hover { background: var(--color-white); color: var(--color-bg); transform: translateY(-3px); }
+
+    /* Footer */
+    .footer {
+      background: var(--color-surface);
+      border-top: 1px solid var(--color-amber);
+      padding: var(--space-xl) 0 var(--space-md);
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr;
+      gap: var(--space-xl);
+      margin-bottom: var(--space-xl);
+    }
+    .footer-brand .nav-brand { display: inline-block; margin-bottom: var(--space-xs); }
+    .footer-brand p { font-size: 0.9rem; margin-bottom: var(--space-md); }
+    .socials { display: flex; gap: var(--space-sm); }
+    .socials a {
+      width: 40px; height: 40px; border-radius: 50%;
+      border: 1px solid rgba(245,245,240,0.15);
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.3s var(--transition);
+    }
+    .socials a:hover { border-color: var(--color-amber); background: var(--color-amber); color: var(--color-bg); }
+    .footer-links h4 {
+      font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em;
+      color: var(--color-amber); margin-bottom: var(--space-sm);
+    }
+    .footer-links ul { display: flex; flex-direction: column; gap: 0.6rem; }
+    .footer-links a {
+      font-size: 0.9rem; color: var(--color-muted);
+      transition: color 0.3s var(--transition);
+    }
+    .footer-links a:hover { color: var(--color-white); }
+    .footer-contact h4 {
+      font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em;
+      color: var(--color-amber); margin-bottom: var(--space-sm);
+    }
+    .footer-contact a { font-size: 1.1rem; font-weight: 500; color: var(--color-white); }
+    .footer-contact a:hover { color: var(--color-amber); }
+    .footer-bar {
+      border-top: 1px solid rgba(245,245,240,0.08);
+      padding-top: var(--space-sm);
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.8rem; color: var(--color-muted);
+    }
+    .footer-bar a { color: var(--color-muted); transition: color 0.3s; }
+    .footer-bar a:hover { color: var(--color-white); }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      :root { --space-2xl: 4rem; --space-xl: 3rem; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .about-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      .services-grid { grid-template-columns: 1fr; }
+      .work-grid { grid-template-columns: 1fr; }
+      .work-card:nth-child(2) { margin-top: 0; min-height: 420px; }
+      .process-steps { flex-direction: column; }
+      .process-line, .process-line-fill { display: none; }
+      .step { text-align: left; padding-left: var(--space-md); }
+      .step-num { left: 0; transform: none; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: 1fr; gap: var(--space-lg); }
+      .footer-bar { flex-direction: column; gap: var(--space-xs); text-align: center; }
+      .hero-ctas { flex-direction: column; }
+      .btn { width: 100%; justify-content: center; }
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+      .marquee-track { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Custom Cursor -->
+  <div class="cursor-dot" aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true"></div>
+
+  <!-- Navigation -->
+  <header class="navbar" id="navbar">
+    <div class="container">
+      <a href="#" class="nav-brand" aria-label="VALA WORKS Home">VALA WORKS</a>
+      <nav class="nav-links" aria-label="Main Navigation">
+        <a href="#work">Work</a>
+        <a href="#services">Services</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a href="#contact" class="nav-cta">Let's Talk</a>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="Toggle Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Nav Overlay -->
+  <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+    <a href="#work" class="mobile-link">Work</a>
+    <a href="#services" class="mobile-link">Services</a>
+    <a href="#about" class="mobile-link">About</a>
+    <a href="#contact" class="mobile-link">Contact</a>
+    <a href="#contact" class="nav-cta" style="margin-top:1rem;">Let's Talk</a>
+  </div>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero" id="hero">
+      <canvas id="hero-canvas"></canvas>
+      <div class="hero-overlay"></div>
+      <div class="container hero-content">
+        <span class="eyebrow hero-eyebrow">Marketing Reimagined — 2025</span>
+        <h1 class="hero-title">
+          <span class="word">We</span> <span class="word">Make</span><br>
+          <span class="word">Brands</span><br>
+          <span class="word">Unforgettable.</span>
+        </h1>
+        <p class="hero-sub">Strategy. Design. Growth. We don't just market — we architect brand futures. From first impression to lasting legacy, Vala Works transforms bold ideas into cultural movements.</p>
+        <div class="hero-ctas">
+          <a href="#work" class="btn btn-amber">See Our Work</a>
+          <a href="#process" class="btn btn-ghost">How We Work</a>
+        </div>
+      </div>
+      <div class="scroll-indicator" aria-hidden="true">
+        <span>Scroll</span>
+        <div class="scroll-line"></div>
+      </div>
+    </section>
+
+    <!-- Marquee -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track">
+        <span>Brand Strategy ✦</span>
+        <span>Digital Marketing ✦</span>
+        <span>Web Design ✦</span>
+        <span>Content Creation ✦</span>
+        <span>Performance Ads ✦</span>
+        <span>SEO & Growth ✦</span>
+        <span>Video Production ✦</span>
+        <span>Social Media ✦</span>
+        <span>Brand Strategy ✦</span>
+        <span>Digital Marketing ✦</span>
+        <span>Web Design ✦</span>
+        <span>Content Creation ✦</span>
+        <span>Performance Ads ✦</span>
+        <span>SEO & Growth ✦</span>
+        <span>Video Production ✦</span>
+        <span>Social Media ✦</span>
+      </div>
+    </div>
+
+    <!-- About / Manifesto -->
+    <section class="section" id="about">
+      <div class="container">
+        <div class="about-grid">
+          <div class="about-text">
+            <span class="eyebrow">Who We Are</span>
+            <h2 class="section-title">We Are Vala Works</h2>
+            <p>We believe brands are living systems — not static logos or taglines, but breathing ecosystems of emotion, story, and strategy. At Vala Works, we fuse data-driven precision with human intuition to build identities that don't just compete, they captivate.</p>
+            <p>Our team spans strategists, designers, growth hackers, and storytellers united by one obsession: making your brand impossible to ignore. We reject templated thinking. Every project begins with deep cultural listening and ends with work that moves markets.</p>
+            <p>From stealth startups to Fortune 500 reinventions, we have spent years refining a process that turns ambiguity into momentum. We don't chase trends — we set them. Welcome to the future of brand building.</p>
+          </div>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-number" data-count="120" data-suffix="+">0</div>
+              <div class="stat-label">Brands Transformed</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number" data-count="40" data-prefix="$" data-suffix="M+">$0</div>
+              <div class="stat-label">Revenue Generated</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number" data-count="8" data-suffix="">0</div>
+              <div class="stat-label">Countries, 1 Vision</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number" data-count="5" data-suffix="★">0</div>
+              <div class="stat-label">Average Rating</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services -->
+    <section class="section" id="services">
+      <div class="container">
+        <span class="eyebrow">Our Expertise</span>
+        <h2 class="section-title">What We Do</h2>
+        <div class="services-grid">
+          <article class="service-card">
+            <div class="service-icon" aria-hidden="true">◈</div>
+            <h3>Brand Strategy</h3>
+            <p>Positioning, messaging, and identity systems that turn market confusion into category leadership.</p>
+          </article>
+          <article class="service-card">
+            <div class="service-icon" aria-hidden="true">◉</div>
+            <h3>Web & App Design</h3>
+            <p>Immersive digital experiences engineered for conversion, retention, and pure visual impact.</p>
+          </article>
+          <article class="service-card">
+            <div class="service-icon" aria-hidden="true">▣</div>
+            <h3>Performance Marketing</h3>
+            <p>Precision-targeted campaigns across every major channel with relentless optimization.</p>
+          </article>
+          <article class="service-card">
+            <div class="service-icon" aria-hidden="true">▶</div>
+            <h3>Content & Video</h3>
+            <p>Story-driven video and editorial content that earns attention in a scroll-heavy world.</p>
+          </article>
+          <article class="service-card">
+            <div class="service-icon" aria-hidden="true">◆</div>
+            <h3>SEO & Growth</h3>
+            <p>Technical SEO, organic growth loops, and content architectures built to compound.</p>
+          </article>
+          <article class="service-card">
+            <div class="service-icon" aria-hidden="true">◊</div>
+            <h3>AI-Powered Automation</h3>
+            <p>Smart workflows, predictive analytics, and AI tools that amplify human creativity.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Work / Case Studies -->
+    <section class="section" id="work">
+      <div class="container">
+        <span class="eyebrow">Portfolio</span>
+        <h2 class="section-title">Selected Work</h2>
+        <div class="work-grid">
+          <article class="work-card">
+            <video autoplay muted loop playsinline poster="" data-lazy>
+              <source src="https://assets.mixkit.co/videos/preview/mixkit-set-of-plateaus-seen-from-the-heights-in-a-sunset-26070-large.mp4" type="video/mp4">
+            </video>
+            <div class="work-overlay"></div>
+            <div class="work-content">
+              <span class="work-tag">Brand Identity</span>
+              <h3>Horizon Collective</h3>
+              <a href="#" class="work-link" aria-label="View Horizon Collective case study">View Case Study →</a>
+            </div>
+          </article>
+          <article class="work-card">
+            <video autoplay muted loop playsinline poster="" data-lazy>
+              <source src="https://assets.mixkit.co/videos/preview/mixkit-white-sand-beach-and-water-1564-large.mp4" type="video/mp4">
+            </video>
+            <div class="work-overlay"></div>
+            <div class="work-content">
+              <span class="work-tag">Digital Experience</span>
+              <h3>Aqua Systems</h3>
+              <a href="#" class="work-link" aria-label="View Aqua Systems case study">View Case Study →</a>
+            </div>
+          </article>
+          <article class="work-card">
+            <video autoplay muted loop playsinline poster="" data-lazy>
+              <source src="https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-city-traffic-at-night-11-large.mp4" type="video/mp4">
+            </video>
+            <div class="work-overlay"></div>
+            <div class="work-content">
+              <span class="work-tag">Growth Campaign</span>
+              <h3>Neon District</h3>
+              <a href="#" class="work-link" aria-label="View Neon District case study">View Case Study →</a>
+            </div>
+          </article>
+        </div>
+        <div class="work-cta">
+          <a href="#" class="btn btn-ghost">View All Work →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Process -->
+    <section class="section" id="process">
+      <div class="container process-wrap">
+        <span class="eyebrow">Our Method</span>
+        <h2 class="section-title">How We Work</h2>
+        <div class="process-steps">
+          <div class="process-line" aria-hidden="true"></div>
+          <div class="process-line-fill" id="processLine" aria-hidden="true"></div>
+          <div class="step">
+            <div class="step-num">01</div>
+            <h3>Discover</h3>
+            <p>We immerse ourselves in your world — audience research, competitive audits, and cultural signals.</p>
+          </div>
+          <div class="step">
+            <div class="step-num">02</div>
+            <h3>Strategize</h3>
+            <p>Insights become roadmaps. We define positioning, messaging hierarchies, and channel strategy.</p>
+          </div>
+          <div class="step">
+            <div class="step-num">03</div>
+            <h3>Execute</h3>
+            <p>Design, build, and launch with surgical precision. Every pixel and word earns its place.</p>
+          </div>
+          <div class="step">
+            <div class="step-num">04</div>
+            <h3>Scale</h3>
+            <p>We optimize, iterate, and amplify. Growth is not a phase — it is a continuous system.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="section" id="testimonials">
+      <div class="container">
+        <span class="eyebrow">Testimonials</span>
+        <h2 class="section-title">What Clients Say</h2>
+        <div class="testimonials-grid">
+          <blockquote class="testimonial">
+            <div class="quote-mark" aria-hidden="true">“</div>
+            <p>Vala Works completely redefined how we show up in market. The rebrand drove a 340% increase in engagement within the first quarter. They don't just deliver — they elevate.</p>
+            <footer class="testimonial-author">
+              <div class="author-avatar">SK</div>
+              <div class="author-info">
+                <h4>Sarah Kwon</h4>
+                <span>CMO, Horizon Collective</span>
+              </div>
+            </footer>
+          </blockquote>
+          <blockquote class="testimonial">
+            <div class="quote-mark" aria-hidden="true">“</div>
+            <p>The team fused strategic rigor with creative fearlessness. Our launch campaign didn't just hit targets — it reset them. Vala is now our permanent growth partner.</p>
+            <footer class="testimonial-author">
+              <div class="author-avatar">MR</div>
+              <div class="author-info">
+                <h4>Marcus Reed</h4>
+                <span>Founder, Neon District</span>
+              </div>
+            </footer>
+          </blockquote>
+          <blockquote class="testimonial">
+            <div class="quote-mark" aria-hidden="true">“</div>
+            <p>I've worked with dozens of agencies. Vala Works is the first that operates like a true extension of our team — fast, thoughtful, and relentlessly original.</p>
+            <footer class="testimonial-author">
+              <div class="author-avatar">AL</div>
+              <div class="author-info">
+                <h4>Ana López</h4>
+                <span>VP Marketing, Aqua Systems</span>
+              </div>
+            </footer>
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Banner -->
+    <section class="section cta-banner" id="contact">
+      <div class="container" style="position:relative; z-index:2;">
+        <div class="cta-border" aria-hidden="true"></div>
+        <h2>Ready to Build Something Remarkable?</h2>
+        <p>Let's create a brand that people actually remember. The next era of your company starts with one conversation.</p>
+        <a href="mailto:hello@valaworks.com" class="cta-btn">Start Your Project →</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-brand">VALA WORKS</div>
+          <p>We Build Brands That Move Culture. Strategy, design, and growth for the future.</p>
+          <div class="socials">
+            <a href="#" aria-label="Twitter / X">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            <a href="#" aria-label="Instagram">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+            </a>
+            <a href="#" aria-label="LinkedIn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            </a>
+            <a href="#" aria-label="Behance">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M22 7h-7v-2h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14h-8.027c.13 3.211 3.483 3.312 4.588 2.029h3.168zm-7.686-4h4.965c-.105-1.547-1.136-2.219-2.477-2.219-1.466 0-2.277.768-2.488 2.219zm-9.574 6.988h-6.466v-14.967h6.953c5.476.081 5.58 5.444 2.72 6.906 3.461 1.26 3.577 8.061-3.207 8.061zm-3.466-8.988h3.584c2.508 0 2.906-3-.312-3h-3.272v3zm3.391 3h-3.391v3.016h3.341c3.055 0 2.868-3.016.05-3.016z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="#work">Work</a></li>
+            <li><a href="#services">Services</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#process">Process</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Service</a></li>
+            <li><a href="#">Cookie Settings</a></li>
+          </ul>
+        </div>
+        <div class="footer-contact">
+          <h4>Get in Touch</h4>
+          <a href="mailto:hello@valaworks.com">hello@valaworks.com</a>
+        </div>
+      </div>
+      <div class="footer-bar">
+        <span>© 2025 Vala Works. All rights reserved.</span>
+        <span><a href="#">Privacy Policy</a> | <a href="#">Terms</a></span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ==========================================
+    // LENIS SMOOTH SCROLL
+    // ==========================================
+    const lenis = new Lenis({ duration: 1.2, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), direction: 'vertical', gestureDirection: 'vertical', smooth: true, mouseMultiplier: 1, smoothTouch: false, touchMultiplier: 2 });
+    function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+    requestAnimationFrame(raf);
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+    gsap.ticker.lagSmoothing(0);
+
+    // ==========================================
+    // CUSTOM CURSOR
+    // ==========================================
+    const dot = document.querySelector('.cursor-dot');
+    const ring = document.querySelector('.cursor-ring');
+    let mouseX = 0, mouseY = 0, ringX = 0, ringY = 0;
+    if (window.matchMedia('(pointer: fine)').matches) {
+      document.addEventListener('mousemove', (e) => { mouseX = e.clientX; mouseY = e.clientY; dot.style.left = mouseX + 'px'; dot.style.top = mouseY + 'px'; });
+      function animateCursor() { ringX += (mouseX - ringX) * 0.15; ringY += (mouseY - ringY) * 0.15; ring.style.left = ringX + 'px'; ring.style.top = ringY + 'px'; requestAnimationFrame(animateCursor); }
+      animateCursor();
+      document.querySelectorAll('a, button, .work-card, .service-card').forEach(el => {
+        el.addEventListener('mouseenter', () => { ring.style.width = '48px'; ring.style.height = '48px'; ring.style.background = 'rgba(245,166,35,0.08)'; });
+        el.addEventListener('mouseleave', () => { ring.style.width = '32px'; ring.style.height = '32px'; ring.style.background = 'transparent'; });
+      });
+    }
+
+    // ==========================================
+    // NAVBAR SCROLL STATE
+    // ==========================================
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 60) navbar.classList.add('scrolled');
+      else navbar.classList.remove('scrolled');
+    }, { passive: true });
+
+    // ==========================================
+    // MOBILE NAV
+    // ==========================================
+    const hamburger = document.getElementById('hamburger');
+    const mobileNav = document.getElementById('mobileNav');
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      mobileNav.classList.toggle('open');
+      const isOpen = mobileNav.classList.contains('open');
+      hamburger.setAttribute('aria-expanded', isOpen);
+      mobileNav.setAttribute('aria-hidden', !isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => { hamburger.classList.remove('active'); mobileNav.classList.remove('open'); hamburger.setAttribute('aria-expanded', 'false'); mobileNav.setAttribute('aria-hidden', 'true'); document.body.style.overflow = ''; });
+    });
+
+    // ==========================================
+    // THREE.JS HERO BACKGROUND
+    // ==========================================
+    const canvas = document.getElementById('hero-canvas');
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    const group = new THREE.Group();
+    scene.add(group);
+
+    // Wireframe Torus Knot
+    const geometry = new THREE.TorusKnotGeometry(3.2, 1.1, 140, 20);
+    const wireframe = new THREE.WireframeGeometry(geometry);
+    const lineMaterial = new THREE.LineBasicMaterial({ color: 0xF5A623, transparent: true, opacity: 0.35 });
+    const torusLines = new THREE.LineSegments(wireframe, lineMaterial);
+    group.add(torusLines);
+
+    // Particles
+    const particlesGeometry = new THREE.BufferGeometry();
+    const particlesCount = 600;
+    const posArray = new Float32Array(particlesCount * 3);
+    for (let i = 0; i < particlesCount * 3; i++) { posArray[i] = (Math.random() - 0.5) * 18; }
+    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+    const particlesMaterial = new THREE.PointsMaterial({ size: 0.04, color: 0xF5A623, transparent: true, opacity: 0.6 });
+    const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+    group.add(particlesMesh);
+
+    camera.position.z = 9;
+
+    let mouseXTarget = 0, mouseYTarget = 0;
+    document.addEventListener('mousemove', (e) => {
+      mouseXTarget = (e.clientX / window.innerWidth - 0.5) * 2;
+      mouseYTarget = (e.clientY / window.innerHeight - 0.5) * 2;
+    });
+
+    let time = 0;
+    function animateThree() {
+      requestAnimationFrame(animateThree);
+      time += 0.005;
+      group.rotation.y += 0.002;
+      group.rotation.x += 0.001;
+      group.rotation.y += (mouseXTarget * 0.3 - group.rotation.y) * 0.02;
+      group.rotation.x += (mouseYTarget * 0.2 - group.rotation.x) * 0.02;
+      particlesMesh.rotation.y -= 0.001;
+      renderer.render(scene, camera);
+    }
+    animateThree();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // ==========================================
+    // GSAP ANIMATIONS
+    // ==========================================
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Hero entrance
+    const heroTl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+    heroTl.from('.navbar', { y: -30, opacity: 0, duration: 0.8 }, 0)
+          .from('.hero-eyebrow', { y: 20, opacity: 0, duration: 0.8 }, 0.3)
+          .from('.hero-title .word', { y: 60, opacity: 0, duration: 1, stagger: 0.1 }, 0.35)
+          .from('.hero-sub', { y: 30, opacity: 0, duration: 0.8 }, 0.7)
+          .from('.hero-ctas .btn', { y: 20, opacity: 0, duration: 0.7, stagger: 0.1 }, 0.85)
+          .from('.scroll-indicator', { opacity: 0, duration: 1 }, 1.1);
+
+    // Section reveals
+    gsap.utils.toArray('.section').forEach(sec => {
+      gsap.from(sec.querySelectorAll('.eyebrow, .section-title'), {
+        scrollTrigger: { trigger: sec, start: 'top 80%' },
+        y: 40, opacity: 0, duration: 0.9, stagger: 0.15, ease: 'power3.out'
+      });
+    });
+
+    // About text
+    gsap.from('.about-text p', {
+      scrollTrigger: { trigger: '#about', start: 'top 70%' },
+      y: 30, opacity: 0, duration: 0.8, stagger: 0.15, ease: 'power3.out'
+    });
+
+    // Stats
+    gsap.from('.stat-card', {
+      scrollTrigger: { trigger: '.stats-grid', start: 'top 80%' },
+      y: 50, opacity: 0, duration: 0.8, stagger: 0.12, ease: 'power3.out'
+    });
+
+    // Services cards
+    gsap.from('.service-card', {
+      scrollTrigger: { trigger: '.services-grid', start: 'top 80%' },
+      y: 60, opacity: 0, duration: 0.8, stagger: 0.1, ease: 'power3.out'
+    });
+
+    // Work cards
+    gsap.from('.work-card', {
+      scrollTrigger: { trigger: '.work-grid', start: 'top 80%' },
+      y: 70, opacity: 0, duration: 1, stagger: 0.15, ease: 'power3.out'
+    });
+
+    // Process line draw
+    gsap.to('#processLine', {
+      scrollTrigger: { trigger: '.process-steps', start: 'top 75%' },
+      scaleX: 1, duration: 1.4, ease: 'power2.out'
+    });
+    gsap.from('.step', {
+      scrollTrigger: { trigger: '.process-steps', start: 'top 75%' },
+      y: 40, opacity: 0, duration: 0.8, stagger: 0.15, ease: 'power3.out'
+    });
+
+    // Testimonials
+    gsap.from('.testimonial', {
+      scrollTrigger: { trigger: '.testimonials-grid', start: 'top 80%' },
+      y: 50, opacity: 0, duration: 0.9, stagger: 0.15, ease: 'power3.out'
+    });
+
+    // CTA
+    gsap.from('.cta-banner h2, .cta-banner p, .cta-banner .cta-btn', {
+      scrollTrigger: { trigger: '.cta-banner', start: 'top 80%' },
+      y: 40, opacity: 0, duration: 0.9, stagger: 0.15, ease: 'power3.out'
+    });
+
+    // ==========================================
+    // COUNT UP
+    // ==========================================
+    function countUp(el, target, duration, prefix, suffix) {
+      const start = performance.now();
+      function update(now) {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const current = Math.floor(eased * target);
+        el.textContent = (prefix || '') + current + (suffix || '');
+        if (progress < 1) requestAnimationFrame(update);
+        else el.textContent = (prefix || '') + target + (suffix || '');
+      }
+      requestAnimationFrame(update);
+    }
+
+    const statsObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseInt(el.dataset.count);
+          const prefix = el.dataset.prefix || '';
+          const suffix = el.dataset.suffix || '';
+          countUp(el, target, 2000, prefix, suffix);
+          statsObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.stat-number').forEach(el => statsObserver.observe(el));
+
+    // ==========================================
+    // LAZY LOAD VIDEOS
+    // ==========================================
+    const videoObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const video = entry.target;
+          if (video.dataset.src && !video.querySelector('source')) {
+            const source = document.createElement('source');
+            source.src = video.dataset.src;
+            source.type = 'video/mp4';
+            video.appendChild(source);
+            video.load();
+          }
+          video.play();
+        }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('video[data-lazy]').forEach(video => videoObserver.observe(video));
+  </script>
+</body>
+</html>
