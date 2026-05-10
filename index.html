@@ -1,1725 +1,641 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0a0908">
-  <title>VALA WORKS - Digital Marketing Agency in Hyderabad</title>
-  <meta name="description" content="VALA WORKS is a digital marketing agency in Hyderabad offering brand strategy, performance marketing, content creation, social media management, and web design and development.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
-  <style>
-    :root {
-      --bg: #0a0908;
-      --bg-soft: #12100d;
-      --panel: rgba(24, 21, 18, 0.8);
-      --panel-strong: rgba(30, 26, 22, 0.95);
-      --line: rgba(255, 248, 236, 0.12);
-      --line-strong: rgba(255, 248, 236, 0.22);
-      --text: #f4eddf;
-      --muted: #b6a98f;
-      --dim: #7f7465;
-      --accent: #d6ff3f;
-      --accent-soft: rgba(214, 255, 63, 0.18);
-      --accent-strong: #f1ffb3;
-      --warm: #d6b68a;
-      --shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
-      --radius: 28px;
-      --radius-sm: 18px;
-      --container: 1180px;
-      --font-display: "Cormorant Garamond", serif;
-      --font-body: "Manrope", sans-serif;
-      --ease: cubic-bezier(0.22, 1, 0.36, 1);
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { color-scheme: dark; scroll-behavior: smooth; }
-    body {
-      min-height: 100vh;
-      background:
-        radial-gradient(circle at top left, rgba(214, 255, 63, 0.08), transparent 32%),
-        radial-gradient(circle at 88% 18%, rgba(214, 182, 138, 0.12), transparent 24%),
-        linear-gradient(180deg, #080706 0%, #0d0b09 38%, #090807 100%);
-      color: var(--text);
-      font-family: var(--font-body);
-      line-height: 1.6;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      opacity: 0.045;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 140 140'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' /%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23g)' opacity='1'/%3E%3C/svg%3E");
-      z-index: 2;
-    }
-
-    img { display: block; max-width: 100%; }
-    a { color: inherit; text-decoration: none; }
-    button, input, textarea, select { font: inherit; }
-    ::selection { background: var(--accent); color: #121212; }
-
-    .cursor-dot {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(214, 255, 63, 0.95) 0%, rgba(214, 255, 63, 0) 70%);
-      pointer-events: none;
-      z-index: 60;
-      transform: translate(-50%, -50%);
-      mix-blend-mode: screen;
-      opacity: 0;
-    }
-
-    .shell {
-      width: min(var(--container), calc(100% - 2rem));
-      margin: 0 auto;
-      position: relative;
-      z-index: 3;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.65rem;
-      padding: 0.55rem 0.9rem;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      backdrop-filter: blur(18px);
-      background: rgba(255, 255, 255, 0.03);
-      color: var(--muted);
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-    }
-
-    .eyebrow::before {
-      content: "";
-      width: 0.5rem;
-      height: 0.5rem;
-      border-radius: 50%;
-      background: var(--accent);
-      box-shadow: 0 0 16px rgba(214, 255, 63, 0.7);
-    }
-
-    .section {
-      padding: clamp(4.5rem, 8vw, 8rem) 0;
-    }
-
-    .section-head {
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 2rem;
-      align-items: end;
-      margin-bottom: 2.75rem;
-    }
-
-    .section-title {
-      font-family: var(--font-display);
-      font-size: clamp(2.4rem, 5.2vw, 4.8rem);
-      line-height: 0.95;
-      letter-spacing: -0.04em;
-      max-width: 10ch;
-    }
-
-    .section-copy {
-      color: var(--muted);
-      font-size: 1rem;
-      max-width: 36ch;
-      justify-self: end;
-    }
-
-    .nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 50;
-      padding: 1rem 0;
-      transition: background 0.35s var(--ease), border-color 0.35s var(--ease), backdrop-filter 0.35s var(--ease);
-      border-bottom: 1px solid transparent;
-    }
-
-    .nav.scrolled {
-      background: rgba(10, 9, 8, 0.78);
-      border-color: var(--line);
-      backdrop-filter: blur(18px);
-    }
-
-    .nav-inner {
-      width: min(var(--container), calc(100% - 2rem));
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-    }
-
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.75rem;
-      font-weight: 800;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      font-size: 0.9rem;
-    }
-
-    .brand-mark {
-      width: 1.9rem;
-      height: 1.9rem;
-      display: grid;
-      place-items: center;
-      border-radius: 50%;
-      border: 1px solid var(--line);
-      color: var(--accent);
-      box-shadow: inset 0 0 20px rgba(214, 255, 63, 0.08);
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 1.4rem;
-      color: var(--muted);
-      font-size: 0.88rem;
-    }
-
-    .nav-links a:hover,
-    .nav-links a:focus-visible { color: var(--text); }
-
-    .nav-cta,
-    .button {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.7rem;
-      min-height: 3.15rem;
-      padding: 0 1.3rem;
-      border-radius: 999px;
-      border: 1px solid var(--line);
-      transition: transform 0.25s var(--ease), border-color 0.25s var(--ease), background 0.25s var(--ease), color 0.25s var(--ease), box-shadow 0.25s var(--ease);
-      will-change: transform;
-    }
-
-    .button.primary,
-    .nav-cta {
-      background: var(--accent);
-      color: #111;
-      border-color: transparent;
-      font-weight: 800;
-      box-shadow: 0 18px 40px rgba(214, 255, 63, 0.18);
-    }
-
-    .button.secondary {
-      background: rgba(255, 255, 255, 0.03);
-      color: var(--text);
-    }
-
-    .button:hover,
-    .nav-cta:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 22px 55px rgba(214, 255, 63, 0.24);
-    }
-
-    .button.secondary:hover {
-      border-color: var(--line-strong);
-      background: rgba(255, 255, 255, 0.06);
-      box-shadow: none;
-    }
-
-    .hero {
-      position: relative;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      padding: 8rem 0 4rem;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.95fr);
-      gap: clamp(2rem, 5vw, 4rem);
-      align-items: center;
-    }
-
-    .hero-title {
-      margin-top: 1.4rem;
-      font-family: var(--font-display);
-      font-size: clamp(3.8rem, 8vw, 7.3rem);
-      line-height: 0.88;
-      letter-spacing: -0.055em;
-      max-width: 9ch;
-    }
-
-    .hero-title em {
-      color: var(--accent);
-      font-style: normal;
-      text-shadow: 0 0 24px rgba(214, 255, 63, 0.25);
-    }
-
-    .hero-copy {
-      margin-top: 1.4rem;
-      max-width: 36ch;
-      color: var(--muted);
-      font-size: clamp(1rem, 1.7vw, 1.15rem);
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.95rem;
-      margin-top: 2rem;
-    }
-
-    .hero-note {
-      margin-top: 1.15rem;
-      color: var(--dim);
-      font-size: 0.92rem;
-    }
-
-    .hero-visual {
-      position: relative;
-      min-height: 42rem;
-      border-radius: calc(var(--radius) + 8px);
-      border: 1px solid var(--line);
-      overflow: hidden;
-      background:
-        radial-gradient(circle at 75% 20%, rgba(214, 255, 63, 0.22), transparent 18rem),
-        linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
-      box-shadow: var(--shadow);
-      isolation: isolate;
-    }
-
-    .hero-visual::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(180deg, rgba(10, 9, 8, 0.12), rgba(10, 9, 8, 0.76)),
-        url("https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80") center/cover;
-      mix-blend-mode: normal;
-      opacity: 0.72;
-      z-index: 0;
-    }
-
-    .hero-visual::after {
-      content: "";
-      position: absolute;
-      inset: auto -10% -20% 35%;
-      height: 18rem;
-      background: radial-gradient(circle, rgba(214, 255, 63, 0.22), transparent 72%);
-      filter: blur(30px);
-      z-index: 0;
-    }
-
-    #hero-canvas {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-    }
-
-    .hero-card,
-    .hero-panel {
-      position: absolute;
-      z-index: 2;
-      backdrop-filter: blur(20px);
-      background: rgba(10, 9, 8, 0.56);
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
-    }
-
-    .hero-card {
-      top: 1.35rem;
-      right: 1.35rem;
-      width: min(15rem, 44%);
-      padding: 1rem;
-      border-radius: 1.4rem;
-    }
-
-    .hero-card span {
-      display: block;
-      color: var(--dim);
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      font-size: 0.68rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-    }
-
-    .hero-card strong {
-      display: block;
-      font-size: 1.1rem;
-      line-height: 1.35;
-    }
-
-    .hero-panel {
-      left: 1.35rem;
-      bottom: 1.35rem;
-      width: min(23rem, calc(100% - 2.7rem));
-      padding: 1.2rem 1.25rem;
-      border-radius: 1.55rem;
-    }
-
-    .hero-panel-label {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      margin-bottom: 1rem;
-      color: var(--muted);
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-    }
-
-    .hero-panel-list {
-      display: grid;
-      gap: 0.75rem;
-    }
-
-    .hero-panel-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      padding-top: 0.75rem;
-      border-top: 1px solid rgba(255, 248, 236, 0.08);
-      font-size: 0.95rem;
-    }
-
-    .hero-panel-item small {
-      color: var(--dim);
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-    }
-
-    .metrics {
-      margin-top: -1rem;
-      position: relative;
-      z-index: 4;
-    }
-
-    .metrics-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1rem;
-    }
-
-    .metric {
-      padding: 1.25rem;
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--line);
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02));
-      backdrop-filter: blur(18px);
-    }
-
-    .metric-value {
-      font-family: var(--font-display);
-      font-size: clamp(2.2rem, 5vw, 3.3rem);
-      line-height: 0.9;
-      color: var(--accent);
-    }
-
-    .metric-label {
-      margin-top: 0.45rem;
-      color: var(--muted);
-      font-size: 0.88rem;
-    }
-
-    .intro-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) minmax(0, 0.95fr);
-      gap: clamp(1.5rem, 4vw, 3.5rem);
-      align-items: stretch;
-    }
-
-    .intro-card,
-    .intro-image {
-      border-radius: var(--radius);
-      border: 1px solid var(--line);
-      overflow: hidden;
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
-    }
-
-    .intro-card {
-      padding: clamp(1.6rem, 3vw, 2.4rem);
-      display: grid;
-      gap: 1.4rem;
-      align-content: start;
-    }
-
-    .intro-card p {
-      color: var(--muted);
-      font-size: 1rem;
-      max-width: 52ch;
-    }
-
-    .intro-stack {
-      display: grid;
-      gap: 0.85rem;
-      color: var(--muted);
-    }
-
-    .intro-stack div {
-      display: flex;
-      justify-content: space-between;
-      gap: 1rem;
-      padding-top: 0.9rem;
-      border-top: 1px solid rgba(255, 248, 236, 0.09);
-    }
-
-    .intro-stack dt {
-      color: var(--dim);
-      text-transform: uppercase;
-      letter-spacing: 0.13em;
-      font-size: 0.72rem;
-      font-weight: 800;
-    }
-
-    .intro-image {
-      position: relative;
-      min-height: 34rem;
-      box-shadow: var(--shadow);
-    }
-
-    .intro-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: saturate(0.78) contrast(1.02);
-    }
-
-    .intro-badge {
-      position: absolute;
-      right: 1.25rem;
-      bottom: 1.25rem;
-      padding: 1rem 1.1rem;
-      width: min(15rem, calc(100% - 2.5rem));
-      border-radius: 1.35rem;
-      background: rgba(10, 9, 8, 0.7);
-      border: 1px solid var(--line);
-      backdrop-filter: blur(18px);
-    }
-
-    .intro-badge strong {
-      display: block;
-      font-size: 1rem;
-      margin-bottom: 0.35rem;
-    }
-
-    .intro-badge p {
-      color: var(--muted);
-      font-size: 0.88rem;
-    }
-
-    .pin-wrap {
-      margin-top: 2rem;
-      overflow: hidden;
-    }
-
-    .pin-track {
-      display: flex;
-      gap: 1rem;
-      width: max-content;
-      padding-right: 20vw;
-    }
-
-    .service-card {
-      width: min(84vw, 26rem);
-      min-height: 31rem;
-      padding: 1.6rem;
-      border-radius: var(--radius);
-      border: 1px solid var(--line);
-      background: linear-gradient(160deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
-      position: relative;
-      overflow: hidden;
-      display: grid;
-      align-content: end;
-      box-shadow: var(--shadow);
-    }
-
-    .service-card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        linear-gradient(180deg, rgba(8, 8, 8, 0.1), rgba(8, 8, 8, 0.88)),
-        var(--card-image) center/cover;
-      transform: scale(1.05);
-      transition: transform 0.5s var(--ease);
-    }
-
-    .service-card:hover::before { transform: scale(1.1); }
-
-    .service-card > * {
-      position: relative;
-      z-index: 1;
-    }
-
-    .service-index {
-      position: absolute;
-      top: 1.5rem;
-      left: 1.5rem;
-      width: 3rem;
-      height: 3rem;
-      display: grid;
-      place-items: center;
-      border-radius: 50%;
-      background: rgba(10, 9, 8, 0.45);
-      border: 1px solid var(--line);
-      color: var(--accent);
-      font-size: 0.85rem;
-      font-weight: 800;
-      backdrop-filter: blur(12px);
-    }
-
-    .service-title {
-      font-family: var(--font-display);
-      font-size: clamp(2rem, 4vw, 3.2rem);
-      line-height: 0.92;
-      letter-spacing: -0.04em;
-      margin-bottom: 0.8rem;
-    }
-
-    .service-copy {
-      color: var(--muted);
-      max-width: 28ch;
-      margin-bottom: 1rem;
-    }
-
-    .service-chip {
-      display: inline-flex;
-      align-items: center;
-      width: fit-content;
-      padding: 0.5rem 0.8rem;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 248, 236, 0.14);
-      color: var(--text);
-      background: rgba(10, 9, 8, 0.4);
-      font-size: 0.78rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-    }
-
-    .work-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-    }
-
-    .work-card {
-      position: relative;
-      min-height: 28rem;
-      border-radius: var(--radius);
-      overflow: hidden;
-      border: 1px solid var(--line);
-      background: var(--panel-strong);
-      box-shadow: var(--shadow);
-    }
-
-    .work-media {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: saturate(0.82) contrast(1.04);
-      transform: scale(1.02);
-      transition: transform 0.5s var(--ease);
-    }
-
-    .work-card:hover .work-media { transform: scale(1.08); }
-
-    .work-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(10, 9, 8, 0.18), rgba(10, 9, 8, 0.9));
-    }
-
-    .work-body {
-      position: absolute;
-      inset: auto 0 0 0;
-      padding: 1.35rem;
-      display: grid;
-      gap: 0.85rem;
-    }
-
-    .work-meta {
-      color: var(--dim);
-      font-size: 0.74rem;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-    }
-
-    .work-body h3 {
-      font-family: var(--font-display);
-      font-size: 2rem;
-      line-height: 0.95;
-      letter-spacing: -0.04em;
-    }
-
-    .work-body p {
-      color: var(--muted);
-      max-width: 28ch;
-      font-size: 0.95rem;
-    }
-
-    .process-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-    }
-
-    .process-card,
-    .faq-item,
-    .contact-card,
-    .contact-panel {
-      border-radius: var(--radius);
-      border: 1px solid var(--line);
-      background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018));
-      backdrop-filter: blur(18px);
-    }
-
-    .process-card {
-      padding: 1.5rem;
-      min-height: 18rem;
-      display: grid;
-      align-content: start;
-    }
-
-    .process-step {
-      width: fit-content;
-      margin-bottom: 1.2rem;
-      padding: 0.45rem 0.7rem;
-      border-radius: 999px;
-      background: var(--accent-soft);
-      color: var(--accent-strong);
-      font-size: 0.75rem;
-      font-weight: 800;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-    }
-
-    .process-card h3 {
-      font-family: var(--font-display);
-      font-size: 2rem;
-      line-height: 0.96;
-      letter-spacing: -0.04em;
-      margin-bottom: 0.75rem;
-    }
-
-    .process-card p {
-      color: var(--muted);
-      font-size: 0.95rem;
-      max-width: 28ch;
-    }
-
-    .faq-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-      gap: 1rem;
-    }
-
-    .faq-lead {
-      padding: 1.75rem;
-      border-radius: var(--radius);
-      border: 1px solid var(--line);
-      min-height: 100%;
-      background:
-        linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02)),
-        url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80") center/cover;
-      background-blend-mode: overlay;
-      box-shadow: var(--shadow);
-      display: grid;
-      align-content: end;
-    }
-
-    .faq-lead p {
-      color: var(--muted);
-      max-width: 30ch;
-      margin-top: 1rem;
-    }
-
-    .faq-stack {
-      display: grid;
-      gap: 0.9rem;
-    }
-
-    .faq-item {
-      overflow: hidden;
-    }
-
-    .faq-question {
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 1rem;
-      padding: 1.15rem 1.25rem;
-      background: transparent;
-      color: var(--text);
-      border: 0;
-      text-align: left;
-      cursor: pointer;
-    }
-
-    .faq-question span:first-child {
-      font-weight: 700;
-      max-width: 30ch;
-    }
-
-    .faq-plus {
-      width: 2rem;
-      height: 2rem;
-      flex: none;
-      display: grid;
-      place-items: center;
-      border-radius: 50%;
-      border: 1px solid var(--line);
-      color: var(--accent);
-      transition: transform 0.25s var(--ease);
-    }
-
-    .faq-item.active .faq-plus { transform: rotate(45deg); }
-
-    .faq-answer {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.3s var(--ease);
-    }
-
-    .faq-answer p {
-      padding: 0 1.25rem 1.2rem;
-      color: var(--muted);
-      max-width: 52ch;
-    }
-
-    .contact-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
-      gap: 1rem;
-    }
-
-    .contact-card,
-    .contact-panel {
-      padding: clamp(1.5rem, 3vw, 2.2rem);
-      min-height: 100%;
-    }
-
-    .contact-card p,
-    .contact-panel p {
-      color: var(--muted);
-    }
-
-    .contact-list {
-      display: grid;
-      gap: 1rem;
-      margin-top: 1.7rem;
-    }
-
-    .contact-row {
-      display: flex;
-      justify-content: space-between;
-      gap: 1rem;
-      padding-top: 0.9rem;
-      border-top: 1px solid rgba(255, 248, 236, 0.09);
-      color: var(--text);
-    }
-
-    .contact-row span:first-child {
-      color: var(--dim);
-      text-transform: uppercase;
-      letter-spacing: 0.13em;
-      font-size: 0.72rem;
-      font-weight: 800;
-    }
-
-    .contact-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.8rem;
-      margin-top: 1.5rem;
-    }
-
-    .contact-form {
-      display: grid;
-      gap: 1rem;
-      margin-top: 1.3rem;
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-    }
-
-    .field {
-      display: grid;
-      gap: 0.45rem;
-    }
-
-    .field label {
-      color: var(--dim);
-      font-size: 0.72rem;
-      text-transform: uppercase;
-      letter-spacing: 0.13em;
-      font-weight: 800;
-    }
-
-    .field input,
-    .field textarea,
-    .field select {
-      min-height: 3.3rem;
-      width: 100%;
-      border-radius: 1rem;
-      border: 1px solid rgba(255, 248, 236, 0.1);
-      background: rgba(255, 255, 255, 0.03);
-      color: var(--text);
-      padding: 0.95rem 1rem;
-      outline: 0;
-      transition: border-color 0.25s var(--ease), background 0.25s var(--ease);
-    }
-
-    .field textarea {
-      min-height: 9rem;
-      resize: vertical;
-    }
-
-    .field input:focus,
-    .field textarea:focus,
-    .field select:focus {
-      border-color: rgba(214, 255, 63, 0.5);
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    .form-status {
-      display: none;
-      padding: 0.9rem 1rem;
-      border-radius: 1rem;
-      font-size: 0.92rem;
-    }
-
-    .form-status.success {
-      display: block;
-      background: rgba(214, 255, 63, 0.1);
-      border: 1px solid rgba(214, 255, 63, 0.22);
-      color: var(--accent-strong);
-    }
-
-    .form-status.error {
-      display: block;
-      background: rgba(255, 100, 100, 0.08);
-      border: 1px solid rgba(255, 100, 100, 0.18);
-      color: #ffb9b9;
-    }
-
-    .footer {
-      padding: 0 0 2rem;
-    }
-
-    .footer-bar {
-      padding-top: 1.5rem;
-      border-top: 1px solid var(--line);
-      display: flex;
-      justify-content: space-between;
-      gap: 1rem;
-      color: var(--dim);
-      font-size: 0.85rem;
-    }
-
-    @media (max-width: 1080px) {
-      .hero-grid,
-      .intro-grid,
-      .faq-grid,
-      .contact-grid,
-      .section-head,
-      .work-grid,
-      .process-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .section-copy { justify-self: start; }
-      .hero-visual { min-height: 34rem; }
-      .metrics-grid { grid-template-columns: repeat(2, 1fr); }
-      .work-card { min-height: 23rem; }
-      .nav-links { display: none; }
-    }
-
-    @media (max-width: 720px) {
-      .hero { padding-top: 7.2rem; }
-      .hero-title { max-width: 8ch; }
-      .hero-visual { min-height: 31rem; }
-      .hero-card {
-        top: 1rem;
-        right: 1rem;
-        width: calc(100% - 2rem);
-      }
-      .hero-panel {
-        left: 1rem;
-        bottom: 1rem;
-        width: calc(100% - 2rem);
-      }
-      .metrics-grid,
-      .form-row {
-        grid-template-columns: 1fr;
-      }
-      .service-card { width: min(88vw, 22rem); min-height: 27rem; }
-      .footer-bar {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      html { scroll-behavior: auto; }
-      *, *::before, *::after {
-        animation: none !important;
-        transition: none !important;
-      }
-      .cursor-dot { display: none !important; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VALA WORKS — Digital Marketing Studio</title>
+<meta name="description" content="VALA WORKS is a digital marketing studio based in Hyderabad. Brand strategy, performance marketing, content creation, social media, web design.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Zen+Kaku+Gothic+New:wght@300;400;700;900&display=swap" rel="stylesheet">
+<style>
+:root[data-theme="dark"] {
+  --bg: #0a0908;
+  --bg-elevated: #121110;
+  --surface: #1a1918;
+  --text: #f5f5f0;
+  --text-muted: #8a8680;
+  --text-dim: #5a5650;
+  --accent: #d4a574;
+  --accent-dim: rgba(212,165,116,0.12);
+  --border: rgba(245,245,240,0.08);
+  --border-hover: rgba(245,245,240,0.18);
+  --shadow: rgba(0,0,0,0.4);
+}
+:root[data-theme="light"] {
+  --bg: #fafaf8;
+  --bg-elevated: #f0f0ec;
+  --surface: #e8e8e4;
+  --text: #1a1918;
+  --text-muted: #6a6660;
+  --text-dim: #9a9690;
+  --accent: #b07840;
+  --accent-dim: rgba(176,120,64,0.10);
+  --border: rgba(26,25,24,0.10);
+  --border-hover: rgba(26,25,24,0.22);
+  --shadow: rgba(0,0,0,0.08);
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Zen Kaku Gothic New',sans-serif;
+  background:var(--bg);color:var(--text);
+  line-height:1.6;overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  transition:background .4s,color .4s;
+}
+::selection{background:var(--accent);color:var(--bg)}
+
+/* Cursor */
+.cursor{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;mix-blend-mode:difference}
+.cursor-dot{width:6px;height:6px;background:#fff;border-radius:50%;transform:translate(-50%,-50%)}
+.cursor-circle{width:36px;height:36px;border:1px solid rgba(255,255,255,.4);border-radius:50%;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s}
+.cursor.hover .cursor-circle{width:56px;height:56px;border-color:rgba(255,255,255,.8)}
+@media(pointer:coarse){.cursor{display:none}}
+
+/* Theme Toggle */
+.theme-toggle{position:fixed;bottom:2rem;right:2rem;z-index:100;width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--surface);color:var(--text);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s}
+.theme-toggle:hover{border-color:var(--accent)}
+@media(max-width:768px){.theme-toggle{bottom:1rem;right:1rem}}
+
+/* Nav */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.5rem 3rem;display:flex;align-items:center;justify-content:space-between;transition:all .5s cubic-bezier(.16,1,.3,1)}
+.nav.scrolled{background:rgba(var(--bg),.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:1rem 3rem}
+.nav-logo{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;letter-spacing:.15em;text-decoration:none;color:var(--text)}
+.nav-links{display:flex;gap:2.5rem;align-items:center}
+.nav-links a{font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:400;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;color:var(--text-muted);transition:color .3s;position:relative}
+.nav-links a:hover{color:var(--text)}
+.nav-cta{font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;color:var(--text);border:1px solid var(--border);padding:.6rem 1.2rem;transition:all .3s}
+.nav-cta:hover{border-color:var(--accent);background:var(--accent-dim)}
+.hamburger{display:none;flex-direction:column;gap:6px;background:none;border:none;cursor:pointer;padding:.5rem}
+.hamburger span{display:block;width:24px;height:1.5px;background:var(--text);transition:all .3s}
+.hamburger.active span:first-child{transform:rotate(45deg) translate(4px,4px)}
+.hamburger.active span:last-child{transform:rotate(-45deg) translate(4px,-4px)}
+
+.mobile-menu{position:fixed;inset:0;z-index:99;background:var(--bg);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:all .5s}
+.mobile-menu.open{opacity:1;visibility:visible}
+.mobile-links{display:flex;flex-direction:column;gap:2rem;text-align:center}
+.mobile-links a{font-family:'Zen Kaku Gothic New',sans-serif;font-size:2rem;font-weight:900;text-decoration:none;color:var(--text);opacity:0;transform:translateY(20px);transition:all .5s}
+.mobile-menu.open .mobile-links a{opacity:1;transform:translateY(0)}
+.mobile-menu.open .mobile-links a:nth-child(1){transition-delay:.1s}
+.mobile-menu.open .mobile-links a:nth-child(2){transition-delay:.15s}
+.mobile-menu.open .mobile-links a:nth-child(3){transition-delay:.2s}
+.mobile-menu.open .mobile-links a:nth-child(4){transition-delay:.25s}
+.mobile-menu.open .mobile-links a:nth-child(5){transition-delay:.3s}
+.mobile-links a:hover{color:var(--accent)}
+
+/* Hero */
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:8rem 3rem 4rem;overflow:hidden}
+.hero-meta{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.15em;color:var(--text-muted);margin-bottom:2rem}
+.hero-title{font-size:clamp(4rem,12vw,10rem);font-weight:900;line-height:.9;letter-spacing:-.03em;margin-bottom:1.5rem}
+.hero-title span{display:block}
+.hero-sub{font-family:'JetBrains Mono',monospace;font-size:.75rem;letter-spacing:.2em;color:var(--text-muted);margin-bottom:2rem}
+.hero-body{font-size:1.1rem;color:var(--text-muted);max-width:480px;line-height:1.7;margin-bottom:2.5rem}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap}
+.hero-actions a{font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;padding:.9rem 2rem;border:1px solid var(--border);color:var(--text);transition:all .3s}
+.hero-actions a:first-child{background:var(--text);color:var(--bg);border-color:var(--text)}
+.hero-actions a:first-child:hover{background:var(--accent);border-color:var(--accent)}
+.hero-actions a:hover{border-color:var(--accent)}
+.hero-accent{position:absolute;top:15%;right:10%;font-size:8rem;font-weight:300;color:var(--text-dim);opacity:.15;pointer-events:none}
+
+/* Marquee */
+.marquee{overflow:hidden;padding:1.5rem 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--bg-elevated)}
+.marquee-track{display:flex;gap:3rem;animation:marquee 30s linear infinite;width:max-content}
+.marquee:hover .marquee-track{animation-play-state:paused}
+.marquee-item{font-family:'JetBrains Mono',monospace;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted);white-space:nowrap}
+.marquee-item .jp{color:var(--accent);margin-left:1rem}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* Sections */
+.section{padding:8rem 3rem}
+.container{max-width:1200px;margin:0 auto}
+.chapter-header{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.15em;color:var(--accent);margin-bottom:1.5rem;display:flex;gap:1rem;align-items:center}
+.chapter-header .jp{color:var(--text-dim);letter-spacing:.3em}
+.section-title{font-size:clamp(2.5rem,5vw,4.5rem);font-weight:900;line-height:1.05;letter-spacing:-.02em;margin-bottom:3rem}
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* About */
+.about-grid{display:grid;grid-template-columns:1fr 1.5fr;gap:6rem;align-items:start}
+.about-stats{display:flex;flex-direction:column;gap:2rem}
+.stat-block{border-top:1px solid var(--border);padding-top:1.5rem}
+.stat-num{font-family:'JetBrains Mono',monospace;font-size:2.5rem;font-weight:700;color:var(--accent);line-height:1}
+.stat-label{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.15em;color:var(--text-muted);margin-top:.5rem;text-transform:uppercase}
+.about-body p{font-size:1rem;color:var(--text-muted);line-height:1.8;margin-bottom:1.5rem}
+.about-accent{position:absolute;right:3rem;font-size:6rem;color:var(--text-dim);opacity:.08;writing-mode:vertical-rl;pointer-events:none}
+
+/* Services */
+.service-row{display:grid;grid-template-columns:80px 1fr 200px 1fr 60px;align-items:center;gap:2rem;padding:2rem 0;border-top:1px solid var(--border);cursor:pointer;transition:all .3s;position:relative}
+.service-row:last-child{border-bottom:1px solid var(--border)}
+.service-row::before{content:'';position:absolute;inset:0;background:var(--accent-dim);opacity:0;transition:opacity .3s;pointer-events:none}
+.service-row:hover::before{opacity:1}
+.service-row .num{font-family:'JetBrains Mono',monospace;font-size:1rem;color:var(--accent);position:relative;z-index:1}
+.service-row .name{font-size:clamp(1.5rem,3vw,2.5rem);font-weight:900;position:relative;z-index:1}
+.service-row .tag{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);border:1px solid var(--border);padding:.3rem .8rem;justify-self:start;position:relative;z-index:1}
+.service-row .desc{font-size:.85rem;color:var(--text-muted);position:relative;z-index:1}
+.service-row .arrow{justify-self:end;opacity:0;transform:translateX(-10px);transition:all .3s;position:relative;z-index:1}
+.service-row:hover .arrow{opacity:1;transform:translateX(0)}
+
+/* Work */
+.work-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
+.work-card{border:1px solid var(--border);padding:2rem;transition:all .3s;position:relative;overflow:hidden}
+.work-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity .3s}
+.work-card:hover{border-color:var(--border-hover);transform:translateY(-4px)}
+.work-card:hover::before{opacity:1}
+.work-num{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--accent);margin-bottom:1rem}
+.work-tags{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}
+.work-tags span{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);border:1px solid var(--border);padding:.2rem .6rem}
+.work-name{font-size:1.5rem;font-weight:900;margin-bottom:.75rem}
+.work-desc{font-size:.85rem;color:var(--text-muted);line-height:1.5}
+
+/* Process */
+.process-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3rem}
+.process-step{position:relative}
+.process-step .num{font-family:'JetBrains Mono',monospace;font-size:4rem;font-weight:700;color:var(--text-dim);line-height:1;margin-bottom:1rem}
+.process-step .title{font-size:1.25rem;font-weight:900;margin-bottom:1rem}
+.process-step .desc{font-size:.9rem;color:var(--text-muted);line-height:1.7}
+
+/* FAQ */
+.faq-item{border-top:1px solid var(--border)}
+.faq-item:last-child{border-bottom:1px solid var(--border)}
+.faq-q{width:100%;display:flex;justify-content:space-between;align-items:center;padding:1.5rem 0;background:none;border:none;color:var(--text);font-family:'Zen Kaku Gothic New',sans-serif;font-size:1.1rem;font-weight:700;text-align:left;cursor:pointer;transition:color .3s}
+.faq-q:hover{color:var(--accent)}
+.faq-q .icon{font-family:'JetBrains Mono',monospace;font-size:1.2rem;transition:transform .3s}
+.faq-q.active .icon{transform:rotate(45deg)}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.16,1,.3,1),padding .4s}
+.faq-a.open{max-height:300px;padding-bottom:1.5rem}
+.faq-a p{font-size:.9rem;color:var(--text-muted);line-height:1.7}
+
+/* Contact */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem}
+.contact-heading{font-size:clamp(2rem,4vw,3.5rem);font-weight:900;margin-bottom:2rem}
+.contact-links{display:flex;flex-direction:column;gap:1rem}
+.contact-link{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 0;border-bottom:1px solid var(--border);text-decoration:none;color:var(--text);transition:all .3s}
+.contact-link:hover{border-color:var(--accent);color:var(--accent)}
+.contact-link span:first-child{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted)}
+.contact-link span:last-child{font-family:'JetBrains Mono',monospace;font-size:.8rem}
+.contact-form{display:flex;flex-direction:column;gap:1.25rem}
+.form-group{display:flex;flex-direction:column;gap:.5rem}
+.form-group label{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text-dim)}
+.form-group input,.form-group select,.form-group textarea{padding:1rem;background:var(--surface);border:1px solid var(--border);color:var(--text);font-family:'Zen Kaku Gothic New',sans-serif;font-size:.9rem;transition:border-color .3s;outline:none}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--accent)}
+.form-group input::placeholder,.form-group textarea::placeholder{color:var(--text-dim)}
+.form-group select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235a5650' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center}
+.form-group select option{background:var(--surface);color:var(--text)}
+.form-submit{font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:1rem 2rem;background:var(--text);color:var(--bg);border:none;cursor:pointer;transition:all .3s}
+.form-submit:hover{background:var(--accent)}
+.form-status{font-size:.85rem;margin-top:.5rem;min-height:1.5rem;color:var(--accent)}
+
+/* Footer */
+.footer{padding:3rem;border-top:1px solid var(--border);text-align:center}
+.footer p{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.15em;color:var(--text-dim)}
+.footer .jp{color:var(--accent);margin-left:.5rem}
+
+/* Responsive */
+@media(max-width:1024px){
+  .about-grid{grid-template-columns:1fr;gap:3rem}
+  .work-grid{grid-template-columns:repeat(2,1fr)}
+  .process-grid{grid-template-columns:1fr;gap:2rem}
+  .contact-grid{grid-template-columns:1fr;gap:3rem}
+  .service-row{grid-template-columns:60px 1fr 40px;gap:1rem}
+  .service-row .tag,.service-row .desc{display:none}
+}
+@media(max-width:768px){
+  .nav{padding:1rem 1.5rem}
+  .nav-links,.nav-cta{display:none}
+  .hamburger{display:flex}
+  .section{padding:5rem 1.5rem}
+  .hero{padding:7rem 1.5rem 3rem}
+  .hero-title{font-size:clamp(3rem,14vw,5rem)}
+  .hero-accent{font-size:4rem;right:5%}
+  .work-grid{grid-template-columns:1fr}
+  .about-accent{display:none}
+  .contact-grid{grid-template-columns:1fr}
+  .service-row{grid-template-columns:50px 1fr 40px;padding:1.5rem 0}
+  .service-row .name{font-size:1.25rem}
+}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .marquee-track{animation:none}
+}
+</style>
 </head>
 <body>
-  <div class="cursor-dot" aria-hidden="true"></div>
 
-  <nav class="nav" id="nav">
-    <div class="nav-inner">
-      <a class="brand" href="#top" aria-label="VALA WORKS home">
-        <span class="brand-mark">V</span>
-        <span>VALA WORKS</span>
-      </a>
-      <div class="nav-links" aria-label="Primary">
-        <a href="#services">Services</a>
-        <a href="#work">Work</a>
-        <a href="#process">Process</a>
-        <a href="#faq">FAQ</a>
-        <a href="#contact">Contact</a>
-      </div>
-      <a class="nav-cta magnetic" href="#contact">Start a Project</a>
-    </div>
-  </nav>
+<div class="cursor" id="cursor"><div class="cursor-dot"></div><div class="cursor-circle"></div></div>
 
-  <main id="top">
-    <section class="hero">
-      <div class="shell">
-        <div class="hero-grid">
-          <div class="hero-copy-wrap">
-            <div class="eyebrow">Digital Marketing Agency</div>
-            <h1 class="hero-title">Build the brand people remember, <em>then make it move.</em></h1>
-            <p class="hero-copy">VALA WORKS is a Hyderabad-based digital marketing agency for ambitious brands. Strategy, creativity, social presence, performance marketing, and web execution are shaped into one sharper system.</p>
-            <div class="hero-actions">
-              <a class="button primary magnetic" href="#contact">Book the first conversation</a>
-              <a class="button secondary magnetic" href="#work">See featured work</a>
-            </div>
-            <p class="hero-note">Brand strategy, performance marketing, content creation, social media management, and conversion-focused web experiences under one roof.</p>
-          </div>
+<button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+</button>
 
-          <div class="hero-visual">
-            <canvas id="hero-canvas" aria-hidden="true"></canvas>
-            <aside class="hero-card">
-              <span>What We Build</span>
-              <strong>Creative direction, campaign thinking, and launch-ready web presentation.</strong>
-            </aside>
-            <div class="hero-panel">
-              <div class="hero-panel-label">
-                <span>Core Outcomes</span>
-                <span>From strategy to execution</span>
-              </div>
-              <div class="hero-panel-list">
-                <div class="hero-panel-item">
-                  <small>Brand</small>
-                  <strong>Clearer positioning</strong>
-                </div>
-                <div class="hero-panel-item">
-                  <small>Growth</small>
-                  <strong>Performance that compounds</strong>
-                </div>
-                <div class="hero-panel-item">
-                  <small>Presence</small>
-                  <strong>Content that earns attention</strong>
-                </div>
-              </div>
-            </div>
-          </div>
+<nav class="nav" id="nav">
+  <a href="#" class="nav-logo">VALA·WORKS</a>
+  <div class="nav-links">
+    <a href="#services">Services</a>
+    <a href="#work">Work</a>
+    <a href="#process">Process</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <a href="#contact" class="nav-cta">Start Project →</a>
+  <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span></button>
+</nav>
+
+<div class="mobile-menu" id="mobile-menu">
+  <div class="mobile-links">
+    <a href="#services">Services</a>
+    <a href="#work">Work</a>
+    <a href="#process">Process</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contact">Contact</a>
+  </div>
+</div>
+
+<main>
+
+<section class="hero" id="hero">
+  <div class="hero-meta">FOLIO / 2026  NO. 001</div>
+  <h1 class="hero-title"><span>VALA</span><span>WORKS</span></h1>
+  <div class="hero-sub">DIGITAL MARKETING · HYDERABAD</div>
+  <p class="hero-body">We are a creative studio helping brands find their voice in a crowded world. Strategy first, craft always.</p>
+  <div class="hero-actions">
+    <a href="#work">VIEW WORK</a>
+    <a href="#contact">GET IN TOUCH</a>
+  </div>
+  <div class="hero-accent">大</div>
+</section>
+
+<div class="marquee">
+  <div class="marquee-track">
+    <span class="marquee-item">BRAND STRATEGY<span class="jp">あ</span></span>
+    <span class="marquee-item">PERFORMANCE MARKETING<span class="jp">い</span></span>
+    <span class="marquee-item">CONTENT CREATION<span class="jp">う</span></span>
+    <span class="marquee-item">SOCIAL MEDIA<span class="jp">え</span></span>
+    <span class="marquee-item">WEB DESIGN<span class="jp">お</span></span>
+    <span class="marquee-item">HYDERABAD<span class="jp">あ</span></span>
+    <span class="marquee-item">BRAND STRATEGY<span class="jp">あ</span></span>
+    <span class="marquee-item">PERFORMANCE MARKETING<span class="jp">い</span></span>
+    <span class="marquee-item">CONTENT CREATION<span class="jp">う</span></span>
+    <span class="marquee-item">SOCIAL MEDIA<span class="jp">え</span></span>
+    <span class="marquee-item">WEB DESIGN<span class="jp">お</span></span>
+    <span class="marquee-item">HYDERABAD<span class="jp">あ</span></span>
+  </div>
+</div>
+
+<section class="section" id="about">
+  <div class="container" style="position:relative">
+    <div class="chapter-header">CHAPTER 01 · ABOUT <span class="jp">私 た ち</span></div>
+    <h2 class="section-title reveal">SMALL TEAM.<br>BIG AMBITION.</h2>
+    <div class="about-grid">
+      <div class="about-stats">
+        <div class="stat-block reveal">
+          <div class="stat-num">5</div>
+          <div class="stat-label">SERVICES</div>
+        </div>
+        <div class="stat-block reveal">
+          <div class="stat-num">50+</div>
+          <div class="stat-label">PROJECTS DONE</div>
+        </div>
+        <div class="stat-block reveal">
+          <div class="stat-num">3</div>
+          <div class="stat-label">YEARS RUNNING</div>
+        </div>
+        <div class="stat-block reveal">
+          <div class="stat-num">1</div>
+          <div class="stat-label">CITY — HYDERABAD</div>
         </div>
       </div>
-    </section>
-
-    <section class="metrics">
-      <div class="shell">
-        <div class="metrics-grid">
-          <article class="metric">
-            <div class="metric-value" data-count="5">0</div>
-            <div class="metric-label">Core services named on the site</div>
-          </article>
-          <article class="metric">
-            <div class="metric-value" data-count="3">0</div>
-            <div class="metric-label">Featured projects shown</div>
-          </article>
-          <article class="metric">
-            <div class="metric-value" data-count="2">0</div>
-            <div class="metric-label">Direct contact channels</div>
-          </article>
-          <article class="metric">
-            <div class="metric-value" data-count="1">0</div>
-            <div class="metric-label">Hyderabad base</div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="about">
-      <div class="shell">
-        <div class="section-head">
-          <div>
-            <div class="eyebrow">About VALA</div>
-            <h2 class="section-title">Not just another agency deck. A working partner for digital growth.</h2>
-          </div>
-          <p class="section-copy">VALA WORKS brings strategy, creative thinking, and execution together for brands that want a sharper digital presence and more deliberate growth.</p>
-        </div>
-
-        <div class="intro-grid">
-          <article class="intro-card">
-            <p>VALA WORKS is presented as a digital marketing agency built for ambitious brands that need sharper brand strategy, stronger creative, better-performing campaigns, and websites that carry the same level of intent.</p>
-            <dl class="intro-stack">
-              <div>
-                <dt>Based in</dt>
-                <dd>Hyderabad, India</dd>
-              </div>
-              <div>
-                <dt>Primary contact</dt>
-                <dd><a href="mailto:valaworks3@gmail.com">valaworks3@gmail.com</a></dd>
-              </div>
-              <div>
-                <dt>Social channel</dt>
-                <dd><a href="https://www.instagram.com/vala_works" target="_blank" rel="noopener noreferrer">Instagram / @vala_works</a></dd>
-              </div>
-            </dl>
-          </article>
-
-          <div class="intro-image">
-            <img
-              src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80"
-              alt="Creative team working together on laptops"
-              loading="lazy"
-              width="1200"
-              height="1500"
-            >
-            <div class="intro-badge">
-              <strong>One system, not five disconnected vendors.</strong>
-              <p>Strategy, content, social, paid performance, and web execution work together as one growth system.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="services">
-      <div class="shell">
-        <div class="section-head">
-          <div>
-            <div class="eyebrow">Services</div>
-            <h2 class="section-title">Services designed to sharpen the brand and accelerate growth.</h2>
-          </div>
-          <p class="section-copy">From brand foundations to campaign delivery, each service is built to make the business easier to notice, trust, and choose.</p>
-        </div>
-
-        <div class="pin-wrap" id="services-pin">
-          <div class="pin-track" id="pin-track">
-            <article class="service-card" style="--card-image:url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1200&q=80');">
-              <div class="service-index">01</div>
-              <h3 class="service-title">Brand Strategy</h3>
-              <p class="service-copy">Sharper positioning, clearer story, and stronger alignment between what the brand says and how it shows up.</p>
-              <div class="service-chip">Foundation</div>
-            </article>
-
-            <article class="service-card" style="--card-image:url('https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80');">
-              <div class="service-index">02</div>
-              <h3 class="service-title">Performance Marketing</h3>
-              <p class="service-copy">Paid growth work framed around disciplined decision-making, measurable direction, and campaigns that can be iterated fast.</p>
-              <div class="service-chip">Acquisition</div>
-            </article>
-
-            <article class="service-card" style="--card-image:url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1200&q=80');">
-              <div class="service-index">03</div>
-              <h3 class="service-title">Content Creation</h3>
-              <p class="service-copy">Visual and editorial output designed to stop scrolling, carry a point of view, and keep the brand recognizable.</p>
-              <div class="service-chip">Creative</div>
-            </article>
-
-            <article class="service-card" style="--card-image:url('https://images.unsplash.com/photo-1522542550221-31fd19575a2d?auto=format&fit=crop&w=1200&q=80');">
-              <div class="service-index">04</div>
-              <h3 class="service-title">Social Media Management</h3>
-              <p class="service-copy">A steadier publishing rhythm, stronger community touchpoints, and a feed that feels intentional instead of improvised.</p>
-              <div class="service-chip">Retention</div>
-            </article>
-
-            <article class="service-card" style="--card-image:url('https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80');">
-              <div class="service-index">05</div>
-              <h3 class="service-title">Web Design and Development</h3>
-              <p class="service-copy">Sites that carry the brand properly, communicate the offer fast, and convert interest into actual conversations.</p>
-              <div class="service-chip">Conversion</div>
-            </article>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="work">
-      <div class="shell">
-        <div class="section-head">
-          <div>
-            <div class="eyebrow">Featured Work</div>
-            <h2 class="section-title">Selected work that reflects brand, web, and campaign execution.</h2>
-          </div>
-          <p class="section-copy">A cross-section of branding, web, and campaign-led work presented with a stronger editorial feel.</p>
-        </div>
-
-        <div class="work-grid">
-          <article class="work-card">
-            <img
-              class="work-media"
-              src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80"
-              alt="Brand strategy workshop"
-              loading="lazy"
-              width="1200"
-              height="1600"
-            >
-            <div class="work-overlay"></div>
-            <div class="work-body">
-              <div class="work-meta">01 / Branding, Web Design</div>
-              <h3>Elevate</h3>
-              <p>Branding and web design presented with a cleaner, more premium case-study style.</p>
-            </div>
-          </article>
-
-          <article class="work-card">
-            <img
-              class="work-media"
-              src="https://images.unsplash.com/photo-1516321165247-4aa89a48be28?auto=format&fit=crop&w=1200&q=80"
-              alt="Web design and development work on a laptop"
-              loading="lazy"
-              width="1200"
-              height="1600"
-            >
-            <div class="work-overlay"></div>
-            <div class="work-body">
-              <div class="work-meta">02 / Web Design, Development</div>
-              <h3>Nexora</h3>
-              <p>Web design and development work framed around clarity, usability, and brand presence.</p>
-            </div>
-          </article>
-
-          <article class="work-card">
-            <img
-              class="work-media"
-              src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80"
-              alt="Campaign planning and social media collaboration"
-              loading="lazy"
-              width="1200"
-              height="1600"
-            >
-            <div class="work-overlay"></div>
-            <div class="work-body">
-              <div class="work-meta">03 / Social Media Campaign</div>
-              <h3>Pulse</h3>
-              <p>Campaign-led work built to show momentum, visibility, and a stronger social presence.</p>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="process">
-      <div class="shell">
-        <div class="section-head">
-          <div>
-            <div class="eyebrow">How It Works</div>
-            <h2 class="section-title">Make the route from first brief to live execution obvious.</h2>
-          </div>
-          <p class="section-copy">A simple working model that keeps strategy, creative, and execution moving in the same direction.</p>
-        </div>
-
-        <div class="process-grid">
-          <article class="process-card">
-            <div class="process-step">Step 01</div>
-            <h3>Clarify the brief</h3>
-            <p>Start with the product, the brand story, and the business goal. That determines whether the immediate need is positioning, content, performance, social management, web execution, or a combination.</p>
-          </article>
-
-          <article class="process-card">
-            <div class="process-step">Step 02</div>
-            <h3>Shape the rollout</h3>
-            <p>Translate the brief into a tighter creative and growth direction so the work looks cohesive instead of fragmented across channels.</p>
-          </article>
-
-          <article class="process-card">
-            <div class="process-step">Step 03</div>
-            <h3>Launch and refine</h3>
-            <p>Launch with intent across campaigns, content, social, or web, then refine what is performing and strengthen what needs more traction.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="faq">
-      <div class="shell">
-        <div class="faq-grid">
-          <aside class="faq-lead">
-            <div class="eyebrow">FAQ</div>
-            <h2 class="section-title">A few useful answers before the first conversation.</h2>
-            <p>Clear answers on services, location, execution, and the best way to get in touch.</p>
-          </aside>
-
-          <div class="faq-stack">
-            <article class="faq-item active">
-              <button class="faq-question" type="button" aria-expanded="true">
-                <span>What does VALA WORKS actually help with?</span>
-                <span class="faq-plus">+</span>
-              </button>
-              <div class="faq-answer" style="max-height: 220px;">
-                <p>VALA WORKS offers brand strategy, performance marketing, content creation, social media management, and web design and development.</p>
-              </div>
-            </article>
-
-            <article class="faq-item">
-              <button class="faq-question" type="button" aria-expanded="false">
-                <span>Do you only work with brands in Hyderabad?</span>
-                <span class="faq-plus">+</span>
-              </button>
-              <div class="faq-answer">
-                <p>VALA WORKS is based in Hyderabad and positioned to work with brands beyond its home base.</p>
-              </div>
-            </article>
-
-            <article class="faq-item">
-              <button class="faq-question" type="button" aria-expanded="false">
-                <span>Can the agency handle both strategy and execution?</span>
-                <span class="faq-plus">+</span>
-              </button>
-              <div class="faq-answer">
-                <p>Yes. The original site explicitly described the offer as covering strategy, creativity, and technology, and also said it supports brands from strategy to execution.</p>
-              </div>
-            </article>
-
-            <article class="faq-item">
-              <button class="faq-question" type="button" aria-expanded="false">
-                <span>What is the best way to start a conversation?</span>
-                <span class="faq-plus">+</span>
-              </button>
-              <div class="faq-answer">
-                <p>You can start through the project form, email valaworks3@gmail.com directly, or reach out on Instagram at @vala_works.</p>
-              </div>
-            </article>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section" id="contact">
-      <div class="shell">
-        <div class="contact-grid">
-          <article class="contact-card">
-            <div class="eyebrow">Contact</div>
-            <h2 class="section-title">If the brand is ready to look sharper, the next step should feel easy.</h2>
-            <p>Start the conversation through email, Instagram, or the project form and share what the brand is trying to build next.</p>
-
-            <div class="contact-list">
-              <div class="contact-row">
-                <span>Email</span>
-                <a href="mailto:valaworks3@gmail.com">valaworks3@gmail.com</a>
-              </div>
-              <div class="contact-row">
-                <span>Instagram</span>
-                <a href="https://www.instagram.com/vala_works" target="_blank" rel="noopener noreferrer">@vala_works</a>
-              </div>
-              <div class="contact-row">
-                <span>Location</span>
-                <strong>Hyderabad, India</strong>
-              </div>
-            </div>
-
-            <div class="contact-links">
-              <a class="button secondary magnetic" href="mailto:valaworks3@gmail.com">Email directly</a>
-              <a class="button secondary magnetic" href="https://www.instagram.com/vala_works" target="_blank" rel="noopener noreferrer">Open Instagram</a>
-            </div>
-          </article>
-
-          <section class="contact-panel">
-            <div class="eyebrow">Project Brief</div>
-            <p>Share the essentials and VALA WORKS can follow up with the right next step.</p>
-            <form class="contact-form" id="contactForm" action="https://formspree.io/f/xnqkvegv" method="POST">
-              <div class="form-row">
-                <div class="field">
-                  <label for="name">Name</label>
-                  <input id="name" name="name" type="text" placeholder="Your name" required>
-                </div>
-                <div class="field">
-                  <label for="email">Email</label>
-                  <input id="email" name="email" type="email" placeholder="you@company.com" required>
-                </div>
-              </div>
-
-              <div class="field">
-                <label for="company">Company</label>
-                <input id="company" name="company" type="text" placeholder="Brand or company name">
-              </div>
-
-              <div class="field">
-                <label for="budget">Budget</label>
-                <select id="budget" name="budget">
-                  <option value="" disabled selected>Select a range</option>
-                  <option value="under-50k">Under INR 50,000</option>
-                  <option value="50k-2l">INR 50,000 to INR 2,00,000</option>
-                  <option value="2l-5l">INR 2,00,000 to INR 5,00,000</option>
-                  <option value="5l-plus">INR 5,00,000 and above</option>
-                </select>
-              </div>
-
-              <div class="field">
-                <label for="message">Project Details</label>
-                <textarea id="message" name="message" placeholder="What are you trying to build or improve?"></textarea>
-              </div>
-
-              <button class="button primary magnetic" type="submit">Send project details</button>
-              <div class="form-status" id="formStatus"></div>
-            </form>
-          </section>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <div class="shell">
-      <div class="footer-bar">
-        <span>VALA WORKS / Digital marketing agency / Hyderabad</span>
-        <span>Brand strategy, content, campaigns, social, and web.</span>
+      <div class="about-body">
+        <p class="reveal">VALA WORKS is a creative marketing studio based in Hyderabad, India. We work with startups, small businesses, and founders who believe that good design is good business.</p>
+        <p class="reveal">We do not believe in templates or shortcuts. Every project begins with research, continues with honest conversation, and ends with work we are proud to put our name on.</p>
+        <p class="reveal">Our team is small by choice. We prefer deep relationships over volume. When you work with us, you work directly with the people building your brand.</p>
       </div>
     </div>
-  </footer>
+    <div class="about-accent">私たち</div>
+  </div>
+</section>
 
-  <script>
-    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+<section class="section" id="services">
+  <div class="container">
+    <div class="chapter-header">CHAPTER 02 · SERVICES <span class="jp">サ ー ビ ス</span></div>
+    <h2 class="section-title reveal">WHAT WE DO.</h2>
+    <div class="service-row reveal">
+      <div class="num">あ</div>
+      <div class="name">BRAND STRATEGY</div>
+      <div class="tag">STRATEGY</div>
+      <div class="desc">Positioning, messaging, and identity systems that tell your story with clarity.</div>
+      <div class="arrow">→</div>
+    </div>
+    <div class="service-row reveal">
+      <div class="num">い</div>
+      <div class="name">PERFORMANCE MARKETING</div>
+      <div class="tag">GROWTH</div>
+      <div class="desc">Paid campaigns and funnels built to convert, not just to impress.</div>
+      <div class="arrow">→</div>
+    </div>
+    <div class="service-row reveal">
+      <div class="num">う</div>
+      <div class="name">CONTENT CREATION</div>
+      <div class="tag">CREATIVE</div>
+      <div class="desc">Photo, video, copy, and design that speaks human in a digital world.</div>
+      <div class="arrow">→</div>
+    </div>
+    <div class="service-row reveal">
+      <div class="num">え</div>
+      <div class="name">SOCIAL MEDIA</div>
+      <div class="tag">COMMUNITY</div>
+      <div class="desc">Management and growth across Instagram, LinkedIn, and emerging platforms.</div>
+      <div class="arrow">→</div>
+    </div>
+    <div class="service-row reveal">
+      <div class="num">お</div>
+      <div class="name">WEB DESIGN</div>
+      <div class="tag">DIGITAL</div>
+      <div class="desc">Websites that load fast, look sharp, and turn visitors into customers.</div>
+      <div class="arrow">→</div>
+    </div>
+  </div>
+</section>
 
-    const nav = document.getElementById("nav");
-    window.addEventListener("scroll", () => {
-      nav.classList.toggle("scrolled", window.scrollY > 20);
-    }, { passive: true });
+<section class="section" id="work">
+  <div class="container">
+    <div class="chapter-header">CHAPTER 03 · WORK <span class="jp">作 品</span></div>
+    <h2 class="section-title reveal">SELECTED PROJECTS.</h2>
+    <div class="work-grid">
+      <article class="work-card reveal">
+        <div class="work-num">あ / 001</div>
+        <div class="work-tags"><span>BRANDING</span><span>WEB</span></div>
+        <h3 class="work-name">ELEVATE</h3>
+        <p class="work-desc">Complete brand identity and website for a fintech startup entering the Indian market.</p>
+      </article>
+      <article class="work-card reveal">
+        <div class="work-num">い / 002</div>
+        <div class="work-tags"><span>WEB DEV</span></div>
+        <h3 class="work-name">NEXORA</h3>
+        <p class="work-desc">E-commerce platform built for a D2C skincare brand with custom checkout flow.</p>
+      </article>
+      <article class="work-card reveal">
+        <div class="work-num">う / 003</div>
+        <div class="work-tags"><span>SOCIAL</span><span>CAMPAIGN</span></div>
+        <h3 class="work-name">PULSE</h3>
+        <p class="work-desc">Month-long Instagram campaign that grew a fitness brand from 2K to 15K followers.</p>
+      </article>
+    </div>
+  </div>
+</section>
 
-    document.querySelectorAll('a[href^="#"]').forEach((link) => {
-      link.addEventListener("click", (event) => {
-        const target = link.getAttribute("href");
-        if (!target || target === "#") return;
-        const node = document.querySelector(target);
-        if (!node) return;
-        event.preventDefault();
-        node.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth", block: "start" });
-      });
-    });
+<section class="section" id="process">
+  <div class="container">
+    <div class="chapter-header">CHAPTER 04 · PROCESS <span class="jp">方 法</span></div>
+    <h2 class="section-title reveal">HOW WE WORK.</h2>
+    <div class="process-grid">
+      <div class="process-step reveal">
+        <div class="num">01</div>
+        <h3 class="title">CLARIFY BRIEF</h3>
+        <p class="desc">We ask hard questions upfront. Goals, constraints, audience, and success metrics. No guesswork.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="num">02</div>
+        <h3 class="title">SHAPE ROLLOUT</h3>
+        <p class="desc">Strategy, design, and content come together in a coherent plan. You see progress weekly.</p>
+      </div>
+      <div class="process-step reveal">
+        <div class="num">03</div>
+        <h3 class="title">LAUNCH & REFINE</h3>
+        <p class="desc">We ship, measure, and iterate. Growth is a conversation, not a one-time event.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-    const cursor = document.querySelector(".cursor-dot");
-    if (cursor && !prefersReducedMotion && window.matchMedia("(pointer:fine)").matches) {
-      let cursorX = window.innerWidth / 2;
-      let cursorY = window.innerHeight / 2;
-      let renderX = cursorX;
-      let renderY = cursorY;
+<section class="section" id="faq">
+  <div class="container">
+    <div class="chapter-header">CHAPTER 05 · FAQ <span class="jp">よ く あ る 質 問</span></div>
+    <h2 class="section-title reveal">QUESTIONS.</h2>
+    <div class="faq-item reveal">
+      <button class="faq-q">What services does VALA WORKS offer? <span class="icon">+</span></button>
+      <div class="faq-a"><p>We offer brand strategy, performance marketing, content creation, social media management, and web design. Everything you need to build and grow a brand online.</p></div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-q">How much does a typical project cost? <span class="icon">+</span></button>
+      <div class="faq-a"><p>It depends on scope. A brand identity starts around Rs. 50,000. A full website starts around Rs. 1,00,000. We quote transparently after our first call.</p></div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-q">How long does a project take? <span class="icon">+</span></button>
+      <div class="faq-a"><p>Brand projects take 3–4 weeks. Websites take 4–8 weeks. Ongoing retainers are monthly. We always give you a clear timeline before we start.</p></div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-q">Do you work with clients outside Hyderabad? <span class="icon">+</span></button>
+      <div class="faq-a"><p>Yes. We work with clients across India and internationally. Most of our communication happens over video calls and Slack.</p></div>
+    </div>
+    <div class="faq-item reveal">
+      <button class="faq-q">What is your design process? <span class="icon">+</span></button>
+      <div class="faq-a"><p>Discovery → Strategy → Design → Build → Launch → Iterate. You are involved at every step. No surprises at the finish line.</p></div>
+    </div>
+  </div>
+</section>
 
-      window.addEventListener("mousemove", (event) => {
-        cursorX = event.clientX;
-        cursorY = event.clientY;
-        cursor.style.opacity = "1";
-      }, { passive: true });
+<section class="section" id="contact">
+  <div class="container">
+    <div class="chapter-header">CHAPTER 06 · TALK <span class="jp">連 絡</span></div>
+    <div class="contact-grid">
+      <div>
+        <h2 class="contact-heading reveal">MAIL US.</h2>
+        <div class="contact-links">
+          <a href="mailto:valaworks3@gmail.com" class="contact-link reveal">
+            <span>EMAIL</span>
+            <span>valaworks3@gmail.com ↗</span>
+          </a>
+          <a href="https://instagram.com/valaworks3" target="_blank" rel="noopener" class="contact-link reveal">
+            <span>INSTAGRAM</span>
+            <span>@valaworks3 ↗</span>
+          </a>
+          <a href="tel:+916301003066" class="contact-link reveal">
+            <span>PHONE</span>
+            <span>+91 63010 03066 ↗</span>
+          </a>
+          <div class="contact-link reveal" style="cursor:default">
+            <span>LOCATION</span>
+            <span>HYDERABAD, INDIA</span>
+          </div>
+        </div>
+      </div>
+      <form class="contact-form" id="contact-form" action="https://formspree.io/f/xnqkvegv" method="POST">
+        <div class="form-group reveal">
+          <label>NAME</label>
+          <input type="text" name="name" placeholder="Your name" required>
+        </div>
+        <div class="form-group reveal">
+          <label>EMAIL</label>
+          <input type="email" name="email" placeholder="you@company.com" required>
+        </div>
+        <div class="form-group reveal">
+          <label>COMPANY</label>
+          <input type="text" name="company" placeholder="Company name">
+        </div>
+        <div class="form-group reveal">
+          <label>BUDGET</label>
+          <select name="budget">
+            <option value="" disabled selected>Select range</option>
+            <option>Under Rs. 50,000</option>
+            <option>Rs. 50,000 — 1 Lakh</option>
+            <option>Rs. 1 — 5 Lakhs</option>
+            <option>Rs. 5 Lakhs+</option>
+          </select>
+        </div>
+        <div class="form-group reveal">
+          <label>PROJECT DETAILS</label>
+          <textarea name="message" rows="4" placeholder="Tell us about your project..." required></textarea>
+        </div>
+        <button type="submit" class="form-submit reveal">SEND MESSAGE →</button>
+        <div class="form-status" id="form-status"></div>
+      </form>
+    </div>
+  </div>
+</section>
 
-      const animateCursor = () => {
-        renderX += (cursorX - renderX) * 0.18;
-        renderY += (cursorY - renderY) * 0.18;
-        cursor.style.transform = "translate(" + renderX + "px, " + renderY + "px) translate(-50%, -50%)";
-        requestAnimationFrame(animateCursor);
-      };
-      animateCursor();
+</main>
+
+<footer class="footer">
+  <p>© 2026 VALA WORKS  SET IN ZEN KAKU GOTHIC NEW + JETBRAINS MONO  <span class="jp">あ り が と う</span></p>
+</footer>
+
+<script>
+// Theme Toggle
+const themeToggle = document.getElementById('theme-toggle');
+const html = document.documentElement;
+let currentTheme = localStorage.getItem('theme') || 'dark';
+html.setAttribute('data-theme', currentTheme);
+
+themeToggle.addEventListener('click', () => {
+  currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', currentTheme);
+  localStorage.setItem('theme', currentTheme);
+});
+
+// Custom Cursor
+const cursor = document.getElementById('cursor');
+const cursorDot = cursor.querySelector('.cursor-dot');
+const cursorCircle = cursor.querySelector('.cursor-circle');
+let cx = 0, cy = 0, dx = 0, dy = 0, crx = 0, cry = 0;
+
+if (window.matchMedia('(pointer: fine)').matches) {
+  document.addEventListener('mousemove', (e) => {
+    cx = e.clientX; cy = e.clientY;
+  });
+  function loop() {
+    dx += (cx - dx) * 0.2;
+    dy += (cy - dy) * 0.2;
+    crx += (cx - crx) * 0.1;
+    cry += (cy - cry) * 0.1;
+    cursorDot.style.transform = `translate(${dx}px,${dy}px) translate(-50%,-50%)`;
+    cursorCircle.style.transform = `translate(${crx}px,${cry}px) translate(-50%,-50%)`;
+    requestAnimationFrame(loop);
+  }
+  loop();
+
+  document.querySelectorAll('a, button, .service-row, .work-card, .faq-q').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+  });
+}
+
+// Nav Scroll
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 50);
+}, {passive:true});
+
+// Mobile Menu
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+
+hamburger.addEventListener('click', () => {
+  const open = mobileMenu.classList.toggle('open');
+  hamburger.classList.toggle('active', open);
+  document.body.style.overflow = open ? 'hidden' : '';
+});
+
+document.querySelectorAll('.mobile-links a').forEach(link => {
+  link.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+    hamburger.classList.remove('active');
+    document.body.style.overflow = '';
+  });
+});
+
+// Scroll Reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
     }
+  });
+}, {threshold: 0.1, rootMargin: '0px 0px -50px 0px'});
 
-    const magneticItems = document.querySelectorAll(".magnetic");
-    if (!prefersReducedMotion) {
-      magneticItems.forEach((item) => {
-        item.addEventListener("mousemove", (event) => {
-          const rect = item.getBoundingClientRect();
-          const moveX = (event.clientX - rect.left - rect.width / 2) * 0.14;
-          const moveY = (event.clientY - rect.top - rect.height / 2) * 0.14;
-          item.style.transform = "translate(" + moveX + "px, " + moveY + "px)";
-        });
-        item.addEventListener("mouseleave", () => {
-          item.style.transform = "";
-        });
-      });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// FAQ Accordion
+document.querySelectorAll('.faq-q').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const isOpen = btn.classList.contains('active');
+    document.querySelectorAll('.faq-q').forEach(b => {
+      b.classList.remove('active');
+      b.nextElementSibling.classList.remove('open');
+    });
+    if (!isOpen) {
+      btn.classList.add('active');
+      btn.nextElementSibling.classList.add('open');
     }
+  });
+});
 
-    const faqItems = document.querySelectorAll(".faq-item");
-    faqItems.forEach((item) => {
-      const button = item.querySelector(".faq-question");
-      const answer = item.querySelector(".faq-answer");
-      button.addEventListener("click", () => {
-        const isOpen = item.classList.contains("active");
-        faqItems.forEach((entry) => {
-          entry.classList.remove("active");
-          entry.querySelector(".faq-question").setAttribute("aria-expanded", "false");
-          entry.querySelector(".faq-answer").style.maxHeight = "0px";
-        });
-        if (!isOpen) {
-          item.classList.add("active");
-          button.setAttribute("aria-expanded", "true");
-          answer.style.maxHeight = answer.scrollHeight + "px";
-        }
-      });
+// Contact Form
+const form = document.getElementById('contact-form');
+const status = document.getElementById('form-status');
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = form.querySelector('.form-submit');
+  const original = btn.textContent;
+  btn.textContent = 'SENDING...';
+  btn.disabled = true;
+
+  try {
+    const res = await fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: {Accept: 'application/json'}
     });
-
-    const contactForm = document.getElementById("contactForm");
-    const formStatus = document.getElementById("formStatus");
-    contactForm.addEventListener("submit", async (event) => {
-      event.preventDefault();
-      const submit = contactForm.querySelector('button[type="submit"]');
-      const originalText = submit.textContent;
-      submit.disabled = true;
-      submit.textContent = "Sending...";
-
-      try {
-        const response = await fetch(contactForm.action, {
-          method: "POST",
-          body: new FormData(contactForm),
-          headers: { Accept: "application/json" }
-        });
-
-        if (!response.ok) throw new Error("Formspree submission failed");
-
-        formStatus.textContent = "Message sent. VALA WORKS will get back to you through the submitted contact details.";
-        formStatus.className = "form-status success";
-        contactForm.reset();
-      } catch (error) {
-        formStatus.textContent = "Submission failed. Please email valaworks3@gmail.com directly.";
-        formStatus.className = "form-status error";
-      } finally {
-        submit.disabled = false;
-        submit.textContent = originalText;
-      }
-    });
-
-    const counters = document.querySelectorAll("[data-count]");
-    const animateCounter = (entry) => {
-      const target = Number(entry.dataset.count || 0);
-      const duration = prefersReducedMotion ? 0 : 1.2;
-      if (duration === 0) {
-        entry.textContent = String(target);
-        return;
-      }
-      gsap.fromTo(entry, { innerText: 0 }, {
-        innerText: target,
-        duration,
-        ease: "power2.out",
-        snap: { innerText: 1 },
-        onUpdate: function() {
-          entry.textContent = String(Math.round(Number(entry.innerText)));
-        }
-      });
-    };
-
-    const canvas = document.getElementById("hero-canvas");
-    let renderer;
-    let heroGroup;
-    let camera;
-    let heroActive = !prefersReducedMotion;
-    let pointerX = 0;
-    let pointerY = 0;
-
-    function setupHeroScene() {
-      if (!canvas || prefersReducedMotion || typeof THREE === "undefined") return;
-
-      const scene = new THREE.Scene();
-      camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
-      camera.position.set(0, 0, 6.5);
-
-      renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
-
-      heroGroup = new THREE.Group();
-      scene.add(heroGroup);
-
-      const ambient = new THREE.AmbientLight(0xffffff, 0.55);
-      const pointA = new THREE.PointLight(0xd6ff3f, 2.1, 20);
-      const pointB = new THREE.PointLight(0xfff0cf, 1.4, 18);
-      pointA.position.set(4, 3, 4);
-      pointB.position.set(-3, -2, 3);
-      scene.add(ambient, pointA, pointB);
-
-      const knot = new THREE.Mesh(
-        new THREE.TorusKnotGeometry(1.1, 0.32, 180, 24),
-        new THREE.MeshPhysicalMaterial({
-          color: 0xd6ff3f,
-          roughness: 0.18,
-          metalness: 0.7,
-          clearcoat: 1,
-          clearcoatRoughness: 0.15
-        })
-      );
-      knot.position.set(0.55, -0.15, 0);
-      heroGroup.add(knot);
-
-      const ring = new THREE.Mesh(
-        new THREE.TorusGeometry(2.1, 0.06, 20, 120),
-        new THREE.MeshBasicMaterial({ color: 0xf4eddf, transparent: true, opacity: 0.35 })
-      );
-      ring.rotation.x = Math.PI / 2.7;
-      ring.rotation.y = Math.PI / 5;
-      heroGroup.add(ring);
-
-      const orb = new THREE.Mesh(
-        new THREE.SphereGeometry(0.42, 48, 48),
-        new THREE.MeshPhysicalMaterial({
-          color: 0xffffff,
-          roughness: 0.05,
-          transmission: 0.88,
-          transparent: true,
-          opacity: 0.92
-        })
-      );
-      orb.position.set(-1.4, 1.25, 0.7);
-      heroGroup.add(orb);
-
-      const smallOrb = new THREE.Mesh(
-        new THREE.SphereGeometry(0.22, 32, 32),
-        new THREE.MeshStandardMaterial({ color: 0xd6b68a, emissive: 0x221a11 })
-      );
-      smallOrb.position.set(1.65, 1.2, -0.4);
-      heroGroup.add(smallOrb);
-
-      const particlesGeometry = new THREE.BufferGeometry();
-      const particleCount = 180;
-      const positions = new Float32Array(particleCount * 3);
-      for (let i = 0; i < particleCount; i += 1) {
-        positions[i * 3] = (Math.random() - 0.5) * 7;
-        positions[i * 3 + 1] = (Math.random() - 0.5) * 7;
-        positions[i * 3 + 2] = (Math.random() - 0.5) * 7;
-      }
-      particlesGeometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-      const particles = new THREE.Points(
-        particlesGeometry,
-        new THREE.PointsMaterial({
-          size: 0.028,
-          color: 0xf4eddf,
-          transparent: true,
-          opacity: 0.65
-        })
-      );
-      heroGroup.add(particles);
-
-      window.addEventListener("mousemove", (event) => {
-        pointerX = (event.clientX / window.innerWidth - 0.5) * 1.5;
-        pointerY = (event.clientY / window.innerHeight - 0.5) * 1.2;
-      }, { passive: true });
-
-      const resizeHero = () => {
-        if (!renderer || !camera) return;
-        camera.aspect = canvas.clientWidth / canvas.clientHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
-      };
-      window.addEventListener("resize", resizeHero);
-
-      const heroObserver = new IntersectionObserver((entries) => {
-        heroActive = entries[0].isIntersecting && !prefersReducedMotion;
-      });
-      heroObserver.observe(canvas);
-
-      const renderLoop = () => {
-        requestAnimationFrame(renderLoop);
-        if (!heroActive || !renderer || !heroGroup) return;
-        const time = performance.now() * 0.001;
-        knot.rotation.x = time * 0.35;
-        knot.rotation.y = time * 0.5;
-        ring.rotation.z = time * 0.16;
-        orb.position.y = 1.2 + Math.sin(time * 1.2) * 0.18;
-        smallOrb.position.y = 1.1 + Math.cos(time * 1.6) * 0.14;
-        particles.rotation.y = time * 0.04;
-        heroGroup.rotation.y += (pointerX - heroGroup.rotation.y) * 0.045;
-        heroGroup.rotation.x += (-pointerY - heroGroup.rotation.x) * 0.045;
-        renderer.render(scene, camera);
-      };
-      renderLoop();
+    if (res.ok) {
+      status.textContent = 'Message sent. We will reply within 24 hours.';
+      form.reset();
+    } else {
+      throw new Error('Failed');
     }
+  } catch {
+    status.textContent = 'Error. Please email us directly at valaworks3@gmail.com';
+  } finally {
+    btn.textContent = original;
+    btn.disabled = false;
+  }
+});
 
-    window.addEventListener("load", () => {
-      setupHeroScene();
-
-      if (typeof gsap === "undefined") return;
-      if (typeof ScrollTrigger !== "undefined") {
-        gsap.registerPlugin(ScrollTrigger);
-      }
-
-      if (!prefersReducedMotion) {
-        gsap.from(".eyebrow", { y: 24, opacity: 0, duration: 0.7, stagger: 0.06, ease: "power3.out" });
-        gsap.from(".hero-title", { y: 60, opacity: 0, duration: 1, ease: "power3.out", delay: 0.15 });
-        gsap.from(".hero-copy, .hero-actions, .hero-note", { y: 28, opacity: 0, duration: 0.8, stagger: 0.12, delay: 0.35, ease: "power3.out" });
-        gsap.from(".hero-card, .hero-panel", { y: 40, opacity: 0, duration: 1, stagger: 0.12, delay: 0.45, ease: "power3.out" });
-      }
-
-      document.querySelectorAll(".section-title, .section-copy, .intro-card, .intro-image, .work-card, .process-card, .faq-item, .contact-card, .contact-panel").forEach((element) => {
-        if (prefersReducedMotion || typeof ScrollTrigger === "undefined") return;
-        gsap.from(element, {
-          scrollTrigger: { trigger: element, start: "top 84%" },
-          y: 44,
-          opacity: 0,
-          duration: 0.8,
-          ease: "power3.out"
-        });
-      });
-
-      counters.forEach((counter) => {
-        if (prefersReducedMotion || typeof ScrollTrigger === "undefined") {
-          counter.textContent = counter.dataset.count;
-          return;
-        }
-        ScrollTrigger.create({
-          trigger: counter,
-          start: "top 90%",
-          once: true,
-          onEnter: () => animateCounter(counter)
-        });
-      });
-
-      const pinSection = document.getElementById("services-pin");
-      const pinTrack = document.getElementById("pin-track");
-      if (pinSection && pinTrack && !prefersReducedMotion && typeof ScrollTrigger !== "undefined") {
-        const getDistance = () => Math.max(0, pinTrack.scrollWidth - pinSection.clientWidth);
-        gsap.to(pinTrack, {
-          x: () => -getDistance(),
-          ease: "none",
-          scrollTrigger: {
-            trigger: pinSection,
-            start: "top top",
-            end: () => "+=" + getDistance(),
-            scrub: true,
-            pin: true,
-            anticipatePin: 1,
-            invalidateOnRefresh: true
-          }
-        });
-      }
+// Hero Animation on Load
+window.addEventListener('load', () => {
+  document.querySelectorAll('.hero-title span, .hero-sub, .hero-body, .hero-actions, .hero-meta').forEach((el, i) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(30px)';
+    el.style.transition = `opacity 1s cubic-bezier(.16,1,.3,1) ${i * 0.1}s, transform 1s cubic-bezier(.16,1,.3,1) ${i * 0.1}s`;
+    requestAnimationFrame(() => {
+      el.style.opacity = '1';
+      el.style.transform = 'translateY(0)';
     });
-  </script>
+  });
+});
+</script>
 </body>
 </html>
