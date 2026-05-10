@@ -1,641 +1,1498 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>VALA WORKS — Digital Marketing Studio</title>
-<meta name="description" content="VALA WORKS is a digital marketing studio based in Hyderabad. Brand strategy, performance marketing, content creation, social media, web design.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Zen+Kaku+Gothic+New:wght@300;400;700;900&display=swap" rel="stylesheet">
-<style>
-:root[data-theme="dark"] {
-  --bg: #0a0908;
-  --bg-elevated: #121110;
-  --surface: #1a1918;
-  --text: #f5f5f0;
-  --text-muted: #8a8680;
-  --text-dim: #5a5650;
-  --accent: #d4a574;
-  --accent-dim: rgba(212,165,116,0.12);
-  --border: rgba(245,245,240,0.08);
-  --border-hover: rgba(245,245,240,0.18);
-  --shadow: rgba(0,0,0,0.4);
-}
-:root[data-theme="light"] {
-  --bg: #fafaf8;
-  --bg-elevated: #f0f0ec;
-  --surface: #e8e8e4;
-  --text: #1a1918;
-  --text-muted: #6a6660;
-  --text-dim: #9a9690;
-  --accent: #b07840;
-  --accent-dim: rgba(176,120,64,0.10);
-  --border: rgba(26,25,24,0.10);
-  --border-hover: rgba(26,25,24,0.22);
-  --shadow: rgba(0,0,0,0.08);
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="VALA WORKS is a Hyderabad digital marketing studio for brand strategy, performance marketing, content creation, social media, and web design.">
+  <meta name="theme-color" content="#0a0908">
+  <title>VALA WORKS - Digital Marketing Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Zen+Kaku+Gothic+New:wght@300;400;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0908;
+      --ink: #f4f0e8;
+      --muted: #9c968b;
+      --dim: #5f594f;
+      --line: rgba(244, 240, 232, .13);
+      --line-strong: rgba(244, 240, 232, .26);
+      --panel: rgba(244, 240, 232, .035);
+      --panel-strong: rgba(244, 240, 232, .07);
+      --accent: #d79b5d;
+      --accent-soft: rgba(215, 155, 93, .12);
+      --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      --sans: "Zen Kaku Gothic New", system-ui, sans-serif;
+      --ease: cubic-bezier(.16, 1, .3, 1);
+      --wrap: min(100% - 40px, 1240px);
+    }
 
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  font-family:'Zen Kaku Gothic New',sans-serif;
-  background:var(--bg);color:var(--text);
-  line-height:1.6;overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
-  transition:background .4s,color .4s;
-}
-::selection{background:var(--accent);color:var(--bg)}
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; background: var(--bg); }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: var(--sans);
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 77% 12%, rgba(215, 155, 93, .105), transparent 28rem),
+        linear-gradient(90deg, rgba(244, 240, 232, .032) 1px, transparent 1px),
+        var(--bg);
+      background-size: auto, 80px 80px, auto;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: geometricPrecision;
+    }
 
-/* Cursor */
-.cursor{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;mix-blend-mode:difference}
-.cursor-dot{width:6px;height:6px;background:#fff;border-radius:50%;transform:translate(-50%,-50%)}
-.cursor-circle{width:36px;height:36px;border:1px solid rgba(255,255,255,.4);border-radius:50%;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s}
-.cursor.hover .cursor-circle{width:56px;height:56px;border-color:rgba(255,255,255,.8)}
-@media(pointer:coarse){.cursor{display:none}}
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 5;
+      opacity: .2;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
+      mix-blend-mode: overlay;
+    }
 
-/* Theme Toggle */
-.theme-toggle{position:fixed;bottom:2rem;right:2rem;z-index:100;width:44px;height:44px;border-radius:50%;border:1px solid var(--border);background:var(--surface);color:var(--text);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s}
-.theme-toggle:hover{border-color:var(--accent)}
-@media(max-width:768px){.theme-toggle{bottom:1rem;right:1rem}}
+    ::selection { background: var(--accent); color: #090807; }
+    a { color: inherit; }
+    button, input, select, textarea { font: inherit; }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: .001ms !important;
+      }
+    }
 
-/* Nav */
-.nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.5rem 3rem;display:flex;align-items:center;justify-content:space-between;transition:all .5s cubic-bezier(.16,1,.3,1)}
-.nav.scrolled{background:rgba(var(--bg),.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:1rem 3rem}
-.nav-logo{font-family:'JetBrains Mono',monospace;font-size:.8rem;font-weight:700;letter-spacing:.15em;text-decoration:none;color:var(--text)}
-.nav-links{display:flex;gap:2.5rem;align-items:center}
-.nav-links a{font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:400;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;color:var(--text-muted);transition:color .3s;position:relative}
-.nav-links a:hover{color:var(--text)}
-.nav-cta{font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;color:var(--text);border:1px solid var(--border);padding:.6rem 1.2rem;transition:all .3s}
-.nav-cta:hover{border-color:var(--accent);background:var(--accent-dim)}
-.hamburger{display:none;flex-direction:column;gap:6px;background:none;border:none;cursor:pointer;padding:.5rem}
-.hamburger span{display:block;width:24px;height:1.5px;background:var(--text);transition:all .3s}
-.hamburger.active span:first-child{transform:rotate(45deg) translate(4px,4px)}
-.hamburger.active span:last-child{transform:rotate(-45deg) translate(4px,-4px)}
+    .cursor {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 999;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--ink);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      mix-blend-mode: difference;
+    }
 
-.mobile-menu{position:fixed;inset:0;z-index:99;background:var(--bg);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:all .5s}
-.mobile-menu.open{opacity:1;visibility:visible}
-.mobile-links{display:flex;flex-direction:column;gap:2rem;text-align:center}
-.mobile-links a{font-family:'Zen Kaku Gothic New',sans-serif;font-size:2rem;font-weight:900;text-decoration:none;color:var(--text);opacity:0;transform:translateY(20px);transition:all .5s}
-.mobile-menu.open .mobile-links a{opacity:1;transform:translateY(0)}
-.mobile-menu.open .mobile-links a:nth-child(1){transition-delay:.1s}
-.mobile-menu.open .mobile-links a:nth-child(2){transition-delay:.15s}
-.mobile-menu.open .mobile-links a:nth-child(3){transition-delay:.2s}
-.mobile-menu.open .mobile-links a:nth-child(4){transition-delay:.25s}
-.mobile-menu.open .mobile-links a:nth-child(5){transition-delay:.3s}
-.mobile-links a:hover{color:var(--accent)}
+    .cursor-ring {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 998;
+      width: 34px;
+      height: 34px;
+      border: 1px solid rgba(244, 240, 232, .45);
+      border-radius: 50%;
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      transition: width .28s var(--ease), height .28s var(--ease), border-color .28s var(--ease);
+      mix-blend-mode: difference;
+    }
 
-/* Hero */
-.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:8rem 3rem 4rem;overflow:hidden}
-.hero-meta{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.15em;color:var(--text-muted);margin-bottom:2rem}
-.hero-title{font-size:clamp(4rem,12vw,10rem);font-weight:900;line-height:.9;letter-spacing:-.03em;margin-bottom:1.5rem}
-.hero-title span{display:block}
-.hero-sub{font-family:'JetBrains Mono',monospace;font-size:.75rem;letter-spacing:.2em;color:var(--text-muted);margin-bottom:2rem}
-.hero-body{font-size:1.1rem;color:var(--text-muted);max-width:480px;line-height:1.7;margin-bottom:2.5rem}
-.hero-actions{display:flex;gap:1rem;flex-wrap:wrap}
-.hero-actions a{font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;padding:.9rem 2rem;border:1px solid var(--border);color:var(--text);transition:all .3s}
-.hero-actions a:first-child{background:var(--text);color:var(--bg);border-color:var(--text)}
-.hero-actions a:first-child:hover{background:var(--accent);border-color:var(--accent)}
-.hero-actions a:hover{border-color:var(--accent)}
-.hero-accent{position:absolute;top:15%;right:10%;font-size:8rem;font-weight:300;color:var(--text-dim);opacity:.15;pointer-events:none}
+    .cursor-ring.is-hover {
+      width: 58px;
+      height: 58px;
+      border-color: rgba(244, 240, 232, .95);
+    }
 
-/* Marquee */
-.marquee{overflow:hidden;padding:1.5rem 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);background:var(--bg-elevated)}
-.marquee-track{display:flex;gap:3rem;animation:marquee 30s linear infinite;width:max-content}
-.marquee:hover .marquee-track{animation-play-state:paused}
-.marquee-item{font-family:'JetBrains Mono',monospace;font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted);white-space:nowrap}
-.marquee-item .jp{color:var(--accent);margin-left:1rem}
-@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+    .skip-link {
+      position: fixed;
+      left: 16px;
+      top: 12px;
+      z-index: 1000;
+      transform: translateY(-140%);
+      padding: 10px 14px;
+      background: var(--ink);
+      color: var(--bg);
+      font-family: var(--mono);
+      font-size: 12px;
+      text-decoration: none;
+    }
 
-/* Sections */
-.section{padding:8rem 3rem}
-.container{max-width:1200px;margin:0 auto}
-.chapter-header{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.15em;color:var(--accent);margin-bottom:1.5rem;display:flex;gap:1rem;align-items:center}
-.chapter-header .jp{color:var(--text-dim);letter-spacing:.3em}
-.section-title{font-size:clamp(2.5rem,5vw,4.5rem);font-weight:900;line-height:1.05;letter-spacing:-.02em;margin-bottom:3rem}
-.reveal{opacity:0;transform:translateY(40px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
-.reveal.visible{opacity:1;transform:translateY(0)}
+    .skip-link:focus { transform: translateY(0); }
 
-/* About */
-.about-grid{display:grid;grid-template-columns:1fr 1.5fr;gap:6rem;align-items:start}
-.about-stats{display:flex;flex-direction:column;gap:2rem}
-.stat-block{border-top:1px solid var(--border);padding-top:1.5rem}
-.stat-num{font-family:'JetBrains Mono',monospace;font-size:2.5rem;font-weight:700;color:var(--accent);line-height:1}
-.stat-label{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.15em;color:var(--text-muted);margin-top:.5rem;text-transform:uppercase}
-.about-body p{font-size:1rem;color:var(--text-muted);line-height:1.8;margin-bottom:1.5rem}
-.about-accent{position:absolute;right:3rem;font-size:6rem;color:var(--text-dim);opacity:.08;writing-mode:vertical-rl;pointer-events:none}
+    .nav {
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 100;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 24px;
+      padding: 22px clamp(20px, 4vw, 56px);
+      color: var(--ink);
+      transition: padding .35s var(--ease), background .35s var(--ease), border-color .35s var(--ease);
+      border-bottom: 1px solid transparent;
+    }
 
-/* Services */
-.service-row{display:grid;grid-template-columns:80px 1fr 200px 1fr 60px;align-items:center;gap:2rem;padding:2rem 0;border-top:1px solid var(--border);cursor:pointer;transition:all .3s;position:relative}
-.service-row:last-child{border-bottom:1px solid var(--border)}
-.service-row::before{content:'';position:absolute;inset:0;background:var(--accent-dim);opacity:0;transition:opacity .3s;pointer-events:none}
-.service-row:hover::before{opacity:1}
-.service-row .num{font-family:'JetBrains Mono',monospace;font-size:1rem;color:var(--accent);position:relative;z-index:1}
-.service-row .name{font-size:clamp(1.5rem,3vw,2.5rem);font-weight:900;position:relative;z-index:1}
-.service-row .tag{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);border:1px solid var(--border);padding:.3rem .8rem;justify-self:start;position:relative;z-index:1}
-.service-row .desc{font-size:.85rem;color:var(--text-muted);position:relative;z-index:1}
-.service-row .arrow{justify-self:end;opacity:0;transform:translateX(-10px);transition:all .3s;position:relative;z-index:1}
-.service-row:hover .arrow{opacity:1;transform:translateX(0)}
+    .nav.is-scrolled {
+      padding-block: 14px;
+      background: rgba(10, 9, 8, .78);
+      border-color: var(--line);
+      backdrop-filter: blur(18px);
+    }
 
-/* Work */
-.work-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem}
-.work-card{border:1px solid var(--border);padding:2rem;transition:all .3s;position:relative;overflow:hidden}
-.work-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity .3s}
-.work-card:hover{border-color:var(--border-hover);transform:translateY(-4px)}
-.work-card:hover::before{opacity:1}
-.work-num{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--accent);margin-bottom:1rem}
-.work-tags{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1rem}
-.work-tags span{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);border:1px solid var(--border);padding:.2rem .6rem}
-.work-name{font-size:1.5rem;font-weight:900;margin-bottom:.75rem}
-.work-desc{font-size:.85rem;color:var(--text-muted);line-height:1.5}
+    .brand {
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-decoration: none;
+    }
 
-/* Process */
-.process-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3rem}
-.process-step{position:relative}
-.process-step .num{font-family:'JetBrains Mono',monospace;font-size:4rem;font-weight:700;color:var(--text-dim);line-height:1;margin-bottom:1rem}
-.process-step .title{font-size:1.25rem;font-weight:900;margin-bottom:1rem}
-.process-step .desc{font-size:.9rem;color:var(--text-muted);line-height:1.7}
+    .nav-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(18px, 3vw, 36px);
+    }
 
-/* FAQ */
-.faq-item{border-top:1px solid var(--border)}
-.faq-item:last-child{border-bottom:1px solid var(--border)}
-.faq-q{width:100%;display:flex;justify-content:space-between;align-items:center;padding:1.5rem 0;background:none;border:none;color:var(--text);font-family:'Zen Kaku Gothic New',sans-serif;font-size:1.1rem;font-weight:700;text-align:left;cursor:pointer;transition:color .3s}
-.faq-q:hover{color:var(--accent)}
-.faq-q .icon{font-family:'JetBrains Mono',monospace;font-size:1.2rem;transition:transform .3s}
-.faq-q.active .icon{transform:rotate(45deg)}
-.faq-a{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.16,1,.3,1),padding .4s}
-.faq-a.open{max-height:300px;padding-bottom:1.5rem}
-.faq-a p{font-size:.9rem;color:var(--text-muted);line-height:1.7}
+    .nav-link,
+    .nav-cta {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--muted);
+      transition: color .25s var(--ease), border-color .25s var(--ease), background .25s var(--ease);
+    }
 
-/* Contact */
-.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem}
-.contact-heading{font-size:clamp(2rem,4vw,3.5rem);font-weight:900;margin-bottom:2rem}
-.contact-links{display:flex;flex-direction:column;gap:1rem}
-.contact-link{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 0;border-bottom:1px solid var(--border);text-decoration:none;color:var(--text);transition:all .3s}
-.contact-link:hover{border-color:var(--accent);color:var(--accent)}
-.contact-link span:first-child{font-family:'JetBrains Mono',monospace;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted)}
-.contact-link span:last-child{font-family:'JetBrains Mono',monospace;font-size:.8rem}
-.contact-form{display:flex;flex-direction:column;gap:1.25rem}
-.form-group{display:flex;flex-direction:column;gap:.5rem}
-.form-group label{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text-dim)}
-.form-group input,.form-group select,.form-group textarea{padding:1rem;background:var(--surface);border:1px solid var(--border);color:var(--text);font-family:'Zen Kaku Gothic New',sans-serif;font-size:.9rem;transition:border-color .3s;outline:none}
-.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--accent)}
-.form-group input::placeholder,.form-group textarea::placeholder{color:var(--text-dim)}
-.form-group select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235a5650' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 1rem center}
-.form-group select option{background:var(--surface);color:var(--text)}
-.form-submit{font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:1rem 2rem;background:var(--text);color:var(--bg);border:none;cursor:pointer;transition:all .3s}
-.form-submit:hover{background:var(--accent)}
-.form-status{font-size:.85rem;margin-top:.5rem;min-height:1.5rem;color:var(--accent)}
+    .nav-link:hover,
+    .nav-link:focus-visible { color: var(--ink); }
 
-/* Footer */
-.footer{padding:3rem;border-top:1px solid var(--border);text-align:center}
-.footer p{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.15em;color:var(--text-dim)}
-.footer .jp{color:var(--accent);margin-left:.5rem}
+    .nav-cta {
+      justify-self: end;
+      color: var(--ink);
+      border: 1px solid var(--line-strong);
+      padding: 11px 14px;
+    }
 
-/* Responsive */
-@media(max-width:1024px){
-  .about-grid{grid-template-columns:1fr;gap:3rem}
-  .work-grid{grid-template-columns:repeat(2,1fr)}
-  .process-grid{grid-template-columns:1fr;gap:2rem}
-  .contact-grid{grid-template-columns:1fr;gap:3rem}
-  .service-row{grid-template-columns:60px 1fr 40px;gap:1rem}
-  .service-row .tag,.service-row .desc{display:none}
-}
-@media(max-width:768px){
-  .nav{padding:1rem 1.5rem}
-  .nav-links,.nav-cta{display:none}
-  .hamburger{display:flex}
-  .section{padding:5rem 1.5rem}
-  .hero{padding:7rem 1.5rem 3rem}
-  .hero-title{font-size:clamp(3rem,14vw,5rem)}
-  .hero-accent{font-size:4rem;right:5%}
-  .work-grid{grid-template-columns:1fr}
-  .about-accent{display:none}
-  .contact-grid{grid-template-columns:1fr}
-  .service-row{grid-template-columns:50px 1fr 40px;padding:1.5rem 0}
-  .service-row .name{font-size:1.25rem}
-}
+    .nav-cta:hover,
+    .nav-cta:focus-visible {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #0a0908;
+    }
 
-@media(prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
-  .marquee-track{animation:none}
-}
-</style>
+    .menu-toggle {
+      display: none;
+      justify-self: end;
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--ink);
+      cursor: pointer;
+    }
+
+    .menu-toggle span {
+      display: block;
+      width: 18px;
+      height: 1px;
+      margin: 0 auto 6px;
+      background: currentColor;
+      transition: transform .3s var(--ease), opacity .3s var(--ease);
+    }
+
+    .menu-toggle span:last-child { margin-bottom: 0; }
+    .menu-toggle.is-open span:first-child { transform: translateY(3.5px) rotate(45deg); }
+    .menu-toggle.is-open span:last-child { transform: translateY(-3.5px) rotate(-45deg); }
+
+    .mobile-panel {
+      position: fixed;
+      inset: 0;
+      z-index: 90;
+      display: grid;
+      align-content: center;
+      padding: 96px 24px 32px;
+      background: rgba(10, 9, 8, .96);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .35s var(--ease), visibility .35s var(--ease);
+    }
+
+    .mobile-panel.is-open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .mobile-panel a {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid var(--line);
+      padding: 18px 0;
+      text-decoration: none;
+      font-size: clamp(34px, 12vw, 68px);
+      font-weight: 900;
+      line-height: .9;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .mobile-panel a:last-child { border-bottom: 1px solid var(--line); }
+    .mobile-panel small {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--accent);
+      align-self: start;
+      padding-top: 6px;
+    }
+
+    main { position: relative; z-index: 1; }
+    .hero {
+      min-height: 100svh;
+      width: var(--wrap);
+      margin: 0 auto;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      padding: clamp(112px, 16vh, 158px) 0 28px;
+      position: relative;
+    }
+
+    .hero-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 24px;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: .14em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .hero-title-wrap {
+      display: grid;
+      align-content: center;
+      padding-block: 36px;
+      position: relative;
+    }
+
+    .hero-title {
+      margin: 0;
+      max-width: 1040px;
+      font-size: clamp(72px, 18.8vw, 244px);
+      font-weight: 900;
+      line-height: .76;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .hero-title span {
+      display: block;
+      overflow: hidden;
+    }
+
+    .hero-title em {
+      display: block;
+      font-style: normal;
+      transform: translateY(110%);
+      animation: titleRise 1.1s var(--ease) forwards;
+    }
+
+    .hero-title span:nth-child(2) em { animation-delay: .12s; }
+
+    @keyframes titleRise {
+      to { transform: translateY(0); }
+    }
+
+    .hero-sub {
+      margin-top: 22px;
+      font-family: var(--mono);
+      font-size: clamp(11px, 1.4vw, 14px);
+      letter-spacing: .21em;
+      color: var(--accent);
+      text-transform: uppercase;
+      opacity: 0;
+      transform: translateY(18px);
+      animation: fadeUp .8s var(--ease) .42s forwards;
+    }
+
+    .hero-kanji {
+      position: absolute;
+      top: 4%;
+      right: 1%;
+      font-size: clamp(92px, 16vw, 220px);
+      line-height: 1;
+      color: rgba(244, 240, 232, .055);
+      font-weight: 300;
+      pointer-events: none;
+    }
+
+    .hero-bottom {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: clamp(28px, 6vw, 78px);
+      align-items: end;
+      border-top: 1px solid var(--line);
+      padding-top: 24px;
+      opacity: 0;
+      transform: translateY(18px);
+      animation: fadeUp .8s var(--ease) .62s forwards;
+    }
+
+    .statement-kicker {
+      margin: 0 0 10px;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: .16em;
+      color: var(--dim);
+      text-transform: uppercase;
+    }
+
+    .statement {
+      margin: 0;
+      max-width: 630px;
+      font-size: clamp(20px, 2.4vw, 34px);
+      font-weight: 700;
+      line-height: 1.08;
+      text-transform: uppercase;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 13px 17px;
+      border: 1px solid var(--line-strong);
+      background: transparent;
+      color: var(--ink);
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform .25s var(--ease), background .25s var(--ease), color .25s var(--ease), border-color .25s var(--ease);
+    }
+
+    .btn:hover,
+    .btn:focus-visible {
+      transform: translateY(-2px);
+      border-color: var(--accent);
+    }
+
+    .btn-primary {
+      background: var(--ink);
+      border-color: var(--ink);
+      color: var(--bg);
+    }
+
+    .btn-primary:hover,
+    .btn-primary:focus-visible {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .marquee {
+      overflow: hidden;
+      border-block: 1px solid var(--line);
+      background: #0f0e0d;
+    }
+
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marquee 26s linear infinite;
+    }
+
+    .marquee:hover .marquee-track { animation-play-state: paused; }
+    .marquee-line {
+      padding: 18px 0;
+      white-space: nowrap;
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: .15em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .marquee-line span {
+      color: var(--accent);
+      padding-inline: 14px;
+    }
+
+    @keyframes marquee {
+      to { transform: translateX(-50%); }
+    }
+
+    .section {
+      width: var(--wrap);
+      margin: 0 auto;
+      padding: clamp(86px, 13vw, 154px) 0;
+      border-bottom: 1px solid var(--line);
+      position: relative;
+    }
+
+    .chapter {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: clamp(28px, 4vw, 48px);
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: .14em;
+      color: var(--accent);
+      text-transform: uppercase;
+    }
+
+    .chapter::after {
+      content: "";
+      height: 1px;
+      flex: 1;
+      background: var(--line);
+    }
+
+    .jp {
+      color: var(--dim);
+      letter-spacing: .28em;
+      white-space: nowrap;
+    }
+
+    .section-title {
+      margin: 0 0 clamp(34px, 6vw, 74px);
+      font-size: clamp(48px, 10vw, 138px);
+      font-weight: 900;
+      line-height: .82;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .8s var(--ease), transform .8s var(--ease);
+    }
+
+    .reveal.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .about-layout {
+      display: grid;
+      grid-template-columns: minmax(220px, .72fr) minmax(0, 1.28fr);
+      gap: clamp(34px, 8vw, 104px);
+      align-items: start;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr;
+      border-top: 1px solid var(--line);
+    }
+
+    .stat {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      align-items: baseline;
+      gap: 20px;
+      padding: 22px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .stat strong {
+      font-family: var(--mono);
+      color: var(--ink);
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: 1;
+    }
+
+    .stat span {
+      font-family: var(--mono);
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .about-copy {
+      position: relative;
+      padding-right: clamp(0px, 7vw, 120px);
+    }
+
+    .about-copy p {
+      margin: 0 0 22px;
+      max-width: 780px;
+      color: var(--muted);
+      font-size: clamp(18px, 2vw, 25px);
+      font-weight: 400;
+      line-height: 1.45;
+    }
+
+    .about-copy p:first-child {
+      color: var(--ink);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .side-jp {
+      position: absolute;
+      top: 12px;
+      right: 0;
+      writing-mode: vertical-rl;
+      color: rgba(244, 240, 232, .07);
+      font-size: clamp(54px, 8vw, 110px);
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .services-list {
+      border-top: 1px solid var(--line);
+    }
+
+    .service-row {
+      position: relative;
+      display: grid;
+      grid-template-columns: 74px minmax(180px, 1.18fr) 176px minmax(230px, .9fr) 48px;
+      gap: 22px;
+      align-items: center;
+      min-height: 122px;
+      border-bottom: 1px solid var(--line);
+      color: var(--ink);
+      text-decoration: none;
+      overflow: hidden;
+      transition: border-color .25s var(--ease);
+    }
+
+    .service-row::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--accent-soft);
+      opacity: 0;
+      transform: scaleX(.96);
+      transform-origin: left;
+      transition: opacity .28s var(--ease), transform .28s var(--ease);
+    }
+
+    .service-row:hover::before,
+    .service-row:focus-visible::before {
+      opacity: 1;
+      transform: scaleX(1);
+    }
+
+    .service-row:hover,
+    .service-row:focus-visible { border-color: var(--line-strong); }
+    .service-row > * { position: relative; z-index: 1; }
+
+    .service-num {
+      font-family: var(--mono);
+      color: var(--accent);
+      font-size: 17px;
+    }
+
+    .service-name {
+      margin: 0;
+      font-size: clamp(27px, 4.7vw, 66px);
+      font-weight: 900;
+      line-height: .9;
+      text-transform: uppercase;
+    }
+
+    .tag {
+      justify-self: start;
+      border: 1px solid var(--line);
+      padding: 7px 10px;
+      font-family: var(--mono);
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+
+    .service-desc {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.35;
+    }
+
+    .service-arrow {
+      font-family: var(--mono);
+      color: var(--accent);
+      opacity: 0;
+      transform: translateX(-16px);
+      transition: opacity .28s var(--ease), transform .28s var(--ease);
+    }
+
+    .service-row:hover .service-arrow,
+    .service-row:focus-visible .service-arrow {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .work-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .work-card {
+      position: relative;
+      min-height: 380px;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      padding: clamp(20px, 3vw, 30px);
+      border: 1px solid var(--line);
+      background:
+        linear-gradient(135deg, rgba(244, 240, 232, .055), transparent 38%),
+        var(--panel);
+      overflow: hidden;
+      transition: transform .28s var(--ease), border-color .28s var(--ease), background .28s var(--ease);
+    }
+
+    .work-card::after {
+      content: attr(data-jp);
+      position: absolute;
+      right: -10px;
+      bottom: -32px;
+      color: rgba(244, 240, 232, .045);
+      font-size: 150px;
+      line-height: 1;
+    }
+
+    .work-card:hover {
+      transform: translateY(-7px);
+      border-color: var(--line-strong);
+      background:
+        linear-gradient(135deg, rgba(215, 155, 93, .12), transparent 42%),
+        var(--panel-strong);
+    }
+
+    .work-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .work-tags {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .work-tags span {
+      border: 1px solid var(--line);
+      padding: 4px 7px;
+    }
+
+    .work-name {
+      align-self: end;
+      margin: 0 0 18px;
+      font-size: clamp(34px, 5.4vw, 70px);
+      font-weight: 900;
+      line-height: .9;
+      text-transform: uppercase;
+    }
+
+    .work-desc {
+      margin: 0;
+      max-width: 340px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      border-top: 1px solid var(--line);
+      border-left: 1px solid var(--line);
+    }
+
+    .process-step {
+      min-height: 330px;
+      padding: clamp(22px, 4vw, 36px);
+      border-right: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, var(--panel), transparent);
+    }
+
+    .process-num {
+      margin: 0 0 90px;
+      font-family: var(--mono);
+      color: var(--accent);
+      font-size: clamp(54px, 8vw, 110px);
+      font-weight: 700;
+      line-height: .8;
+    }
+
+    .process-step h3 {
+      margin: 0 0 12px;
+      font-size: clamp(23px, 3vw, 34px);
+      font-weight: 900;
+      line-height: .95;
+      text-transform: uppercase;
+    }
+
+    .process-step p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.55;
+    }
+
+    .faq-list {
+      border-top: 1px solid var(--line);
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--line);
+    }
+
+    .faq-question {
+      width: 100%;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: clamp(16px, 3vw, 34px);
+      padding: 24px 0;
+      border: 0;
+      background: transparent;
+      color: var(--ink);
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .faq-index {
+      font-family: var(--mono);
+      color: var(--accent);
+      font-size: 12px;
+      letter-spacing: .12em;
+    }
+
+    .faq-question span:nth-child(2) {
+      font-size: clamp(19px, 2.5vw, 32px);
+      font-weight: 900;
+      line-height: 1.05;
+      text-transform: uppercase;
+    }
+
+    .faq-icon {
+      font-family: var(--mono);
+      color: var(--muted);
+      transition: transform .28s var(--ease), color .28s var(--ease);
+    }
+
+    .faq-question[aria-expanded="true"] .faq-icon {
+      color: var(--accent);
+      transform: rotate(45deg);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .42s var(--ease);
+    }
+
+    .faq-answer p {
+      max-width: 780px;
+      margin: 0 0 26px;
+      padding-left: clamp(54px, 8vw, 92px);
+      color: var(--muted);
+      font-size: clamp(16px, 1.6vw, 20px);
+      line-height: 1.55;
+    }
+
+    .contact-layout {
+      display: grid;
+      grid-template-columns: minmax(0, .9fr) minmax(320px, .78fr);
+      gap: clamp(44px, 7vw, 92px);
+      align-items: start;
+    }
+
+    .contact-title {
+      margin: 0 0 36px;
+      font-size: clamp(64px, 12vw, 156px);
+      font-weight: 900;
+      line-height: .78;
+      text-transform: uppercase;
+    }
+
+    .contact-links {
+      border-top: 1px solid var(--line);
+    }
+
+    .contact-link {
+      display: grid;
+      grid-template-columns: 132px minmax(0, 1fr) auto;
+      gap: 20px;
+      align-items: center;
+      min-height: 76px;
+      border-bottom: 1px solid var(--line);
+      color: var(--ink);
+      text-decoration: none;
+      transition: color .25s var(--ease), border-color .25s var(--ease), padding-left .25s var(--ease);
+    }
+
+    .contact-link:hover,
+    .contact-link:focus-visible {
+      color: var(--accent);
+      border-color: var(--line-strong);
+      padding-left: 10px;
+    }
+
+    .contact-label {
+      font-family: var(--mono);
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .contact-value {
+      min-width: 0;
+      overflow-wrap: anywhere;
+      font-size: clamp(20px, 2.3vw, 32px);
+      font-weight: 900;
+      line-height: 1;
+      text-transform: uppercase;
+    }
+
+    .contact-arrow {
+      font-family: var(--mono);
+      color: var(--accent);
+    }
+
+    .form {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      padding: clamp(18px, 3vw, 28px);
+    }
+
+    .form-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 24px;
+      font-family: var(--mono);
+      color: var(--muted);
+      font-size: 11px;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+
+    .field {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .field label {
+      font-family: var(--mono);
+      color: var(--dim);
+      font-size: 10px;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .field input,
+    .field select,
+    .field textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 0;
+      background: rgba(10, 9, 8, .62);
+      color: var(--ink);
+      padding: 14px 13px;
+      outline: 0;
+      transition: border-color .24s var(--ease), background .24s var(--ease);
+    }
+
+    .field textarea {
+      min-height: 132px;
+      resize: vertical;
+    }
+
+    .field input:focus,
+    .field select:focus,
+    .field textarea:focus {
+      border-color: var(--accent);
+      background: rgba(10, 9, 8, .88);
+    }
+
+    .field ::placeholder { color: #70695f; }
+    .field select { color: var(--muted); }
+    .field select:valid { color: var(--ink); }
+    .field option { background: var(--bg); color: var(--ink); }
+
+    .submit-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      align-items: center;
+      margin-top: 22px;
+    }
+
+    .status {
+      min-height: 18px;
+      margin: 0;
+      color: var(--accent);
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .footer {
+      padding: 28px 20px 36px;
+      text-align: center;
+    }
+
+    .footer p {
+      margin: 0;
+      font-family: var(--mono);
+      color: var(--dim);
+      font-size: 10px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 980px) {
+      .nav {
+        grid-template-columns: 1fr auto;
+      }
+
+      .nav-links,
+      .nav-cta { display: none; }
+      .menu-toggle { display: block; }
+
+      .hero-bottom,
+      .about-layout,
+      .contact-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-actions { justify-content: flex-start; }
+
+      .service-row {
+        grid-template-columns: 44px 1fr 36px;
+        min-height: 106px;
+      }
+
+      .service-row .tag,
+      .service-row .service-desc { display: none; }
+
+      .work-grid,
+      .process-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .process-grid { border-left: 0; }
+      .process-step { border-left: 1px solid var(--line); }
+      .process-num { margin-bottom: 46px; }
+    }
+
+    @media (max-width: 640px) {
+      :root { --wrap: min(100% - 28px, 1240px); }
+      .cursor,
+      .cursor-ring { display: none; }
+
+      .hero {
+        padding-top: 92px;
+        min-height: 100svh;
+      }
+
+      .hero-top {
+        display: grid;
+        gap: 10px;
+      }
+
+      .hero-kanji {
+        top: 16%;
+        right: -4%;
+      }
+
+      .statement {
+        font-size: 20px;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .service-name {
+        font-size: clamp(25px, 10vw, 42px);
+      }
+
+      .work-card {
+        min-height: 320px;
+      }
+
+      .stat {
+        grid-template-columns: 88px 1fr;
+      }
+
+      .chapter {
+        align-items: flex-start;
+        flex-wrap: wrap;
+        line-height: 1.5;
+      }
+
+      .chapter::after { display: none; }
+
+      .faq-question {
+        grid-template-columns: 1fr auto;
+      }
+
+      .faq-index {
+        grid-column: 1 / -1;
+      }
+
+      .faq-answer p {
+        padding-left: 0;
+      }
+
+      .contact-link {
+        grid-template-columns: 1fr auto;
+        gap: 10px;
+        padding-block: 18px;
+      }
+
+      .contact-label {
+        grid-column: 1 / -1;
+      }
+
+      .submit-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
 <body>
+  <a class="skip-link" href="#main">SKIP TO CONTENT</a>
+  <div class="cursor" aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true"></div>
 
-<div class="cursor" id="cursor"><div class="cursor-dot"></div><div class="cursor-circle"></div></div>
+  <nav class="nav" aria-label="Primary navigation">
+    <a class="brand" href="#hero">VALA·WORKS</a>
+    <div class="nav-links">
+      <a class="nav-link" href="#services">Services</a>
+      <a class="nav-link" href="#work">Work</a>
+      <a class="nav-link" href="#process">Process</a>
+      <a class="nav-link" href="#faq">FAQ</a>
+      <a class="nav-link" href="#contact">Contact</a>
+    </div>
+    <a class="nav-cta" href="#contact">Start Project →</a>
+    <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false">
+      <span></span>
+      <span></span>
+    </button>
+  </nav>
 
-<button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-</button>
-
-<nav class="nav" id="nav">
-  <a href="#" class="nav-logo">VALA·WORKS</a>
-  <div class="nav-links">
-    <a href="#services">Services</a>
-    <a href="#work">Work</a>
-    <a href="#process">Process</a>
-    <a href="#faq">FAQ</a>
-    <a href="#contact">Contact</a>
+  <div class="mobile-panel" id="mobile-menu" aria-hidden="true">
+    <a href="#services"><span>Services</span><small>01</small></a>
+    <a href="#work"><span>Work</span><small>02</small></a>
+    <a href="#process"><span>Process</span><small>03</small></a>
+    <a href="#faq"><span>FAQ</span><small>04</small></a>
+    <a href="#contact"><span>Contact</span><small>05</small></a>
   </div>
-  <a href="#contact" class="nav-cta">Start Project →</a>
-  <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span></button>
-</nav>
 
-<div class="mobile-menu" id="mobile-menu">
-  <div class="mobile-links">
-    <a href="#services">Services</a>
-    <a href="#work">Work</a>
-    <a href="#process">Process</a>
-    <a href="#faq">FAQ</a>
-    <a href="#contact">Contact</a>
-  </div>
-</div>
+  <main id="main">
+    <section class="hero" id="hero" aria-labelledby="hero-title">
+      <div class="hero-top">
+        <div>FOLIO / 2026&nbsp;&nbsp;NO. 001</div>
+        <div>BRAND / GROWTH / SOCIAL</div>
+      </div>
 
-<main>
+      <div class="hero-title-wrap">
+        <div class="hero-kanji" aria-hidden="true">大</div>
+        <h1 class="hero-title" id="hero-title">
+          <span><em>VALA</em></span>
+          <span><em>WORKS</em></span>
+        </h1>
+        <div class="hero-sub">DIGITAL MARKETING · HYDERABAD</div>
+      </div>
 
-<section class="hero" id="hero">
-  <div class="hero-meta">FOLIO / 2026  NO. 001</div>
-  <h1 class="hero-title"><span>VALA</span><span>WORKS</span></h1>
-  <div class="hero-sub">DIGITAL MARKETING · HYDERABAD</div>
-  <p class="hero-body">We are a creative studio helping brands find their voice in a crowded world. Strategy first, craft always.</p>
-  <div class="hero-actions">
-    <a href="#work">VIEW WORK</a>
-    <a href="#contact">GET IN TOUCH</a>
-  </div>
-  <div class="hero-accent">大</div>
-</section>
-
-<div class="marquee">
-  <div class="marquee-track">
-    <span class="marquee-item">BRAND STRATEGY<span class="jp">あ</span></span>
-    <span class="marquee-item">PERFORMANCE MARKETING<span class="jp">い</span></span>
-    <span class="marquee-item">CONTENT CREATION<span class="jp">う</span></span>
-    <span class="marquee-item">SOCIAL MEDIA<span class="jp">え</span></span>
-    <span class="marquee-item">WEB DESIGN<span class="jp">お</span></span>
-    <span class="marquee-item">HYDERABAD<span class="jp">あ</span></span>
-    <span class="marquee-item">BRAND STRATEGY<span class="jp">あ</span></span>
-    <span class="marquee-item">PERFORMANCE MARKETING<span class="jp">い</span></span>
-    <span class="marquee-item">CONTENT CREATION<span class="jp">う</span></span>
-    <span class="marquee-item">SOCIAL MEDIA<span class="jp">え</span></span>
-    <span class="marquee-item">WEB DESIGN<span class="jp">お</span></span>
-    <span class="marquee-item">HYDERABAD<span class="jp">あ</span></span>
-  </div>
-</div>
-
-<section class="section" id="about">
-  <div class="container" style="position:relative">
-    <div class="chapter-header">CHAPTER 01 · ABOUT <span class="jp">私 た ち</span></div>
-    <h2 class="section-title reveal">SMALL TEAM.<br>BIG AMBITION.</h2>
-    <div class="about-grid">
-      <div class="about-stats">
-        <div class="stat-block reveal">
-          <div class="stat-num">5</div>
-          <div class="stat-label">SERVICES</div>
+      <div class="hero-bottom">
+        <div>
+          <p class="statement-kicker">STATEMENT / 01</p>
+          <p class="statement">We build sharp digital identities, content systems, and campaigns for brands ready to stop looking ordinary.</p>
         </div>
-        <div class="stat-block reveal">
-          <div class="stat-num">50+</div>
-          <div class="stat-label">PROJECTS DONE</div>
-        </div>
-        <div class="stat-block reveal">
-          <div class="stat-num">3</div>
-          <div class="stat-label">YEARS RUNNING</div>
-        </div>
-        <div class="stat-block reveal">
-          <div class="stat-num">1</div>
-          <div class="stat-label">CITY — HYDERABAD</div>
+        <div class="hero-actions" aria-label="Primary actions">
+          <a class="btn btn-primary" href="#contact">Start Project →</a>
+          <a class="btn" href="#work">View Work</a>
         </div>
       </div>
-      <div class="about-body">
-        <p class="reveal">VALA WORKS is a creative marketing studio based in Hyderabad, India. We work with startups, small businesses, and founders who believe that good design is good business.</p>
-        <p class="reveal">We do not believe in templates or shortcuts. Every project begins with research, continues with honest conversation, and ends with work we are proud to put our name on.</p>
-        <p class="reveal">Our team is small by choice. We prefer deep relationships over volume. When you work with us, you work directly with the people building your brand.</p>
+    </section>
+
+    <div class="marquee" aria-label="VALA WORKS services ticker">
+      <div class="marquee-track">
+        <div class="marquee-line">BRAND STRATEGY · <span>あ</span> · PERFORMANCE MARKETING · <span>い</span> · CONTENT CREATION · <span>う</span> · SOCIAL MEDIA · <span>え</span> · WEB DESIGN · <span>お</span> · HYDERABAD · <span>あ</span> ·&nbsp;</div>
+        <div class="marquee-line" aria-hidden="true">BRAND STRATEGY · <span>あ</span> · PERFORMANCE MARKETING · <span>い</span> · CONTENT CREATION · <span>う</span> · SOCIAL MEDIA · <span>え</span> · WEB DESIGN · <span>お</span> · HYDERABAD · <span>あ</span> ·&nbsp;</div>
       </div>
     </div>
-    <div class="about-accent">私たち</div>
-  </div>
-</section>
 
-<section class="section" id="services">
-  <div class="container">
-    <div class="chapter-header">CHAPTER 02 · SERVICES <span class="jp">サ ー ビ ス</span></div>
-    <h2 class="section-title reveal">WHAT WE DO.</h2>
-    <div class="service-row reveal">
-      <div class="num">あ</div>
-      <div class="name">BRAND STRATEGY</div>
-      <div class="tag">STRATEGY</div>
-      <div class="desc">Positioning, messaging, and identity systems that tell your story with clarity.</div>
-      <div class="arrow">→</div>
-    </div>
-    <div class="service-row reveal">
-      <div class="num">い</div>
-      <div class="name">PERFORMANCE MARKETING</div>
-      <div class="tag">GROWTH</div>
-      <div class="desc">Paid campaigns and funnels built to convert, not just to impress.</div>
-      <div class="arrow">→</div>
-    </div>
-    <div class="service-row reveal">
-      <div class="num">う</div>
-      <div class="name">CONTENT CREATION</div>
-      <div class="tag">CREATIVE</div>
-      <div class="desc">Photo, video, copy, and design that speaks human in a digital world.</div>
-      <div class="arrow">→</div>
-    </div>
-    <div class="service-row reveal">
-      <div class="num">え</div>
-      <div class="name">SOCIAL MEDIA</div>
-      <div class="tag">COMMUNITY</div>
-      <div class="desc">Management and growth across Instagram, LinkedIn, and emerging platforms.</div>
-      <div class="arrow">→</div>
-    </div>
-    <div class="service-row reveal">
-      <div class="num">お</div>
-      <div class="name">WEB DESIGN</div>
-      <div class="tag">DIGITAL</div>
-      <div class="desc">Websites that load fast, look sharp, and turn visitors into customers.</div>
-      <div class="arrow">→</div>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="work">
-  <div class="container">
-    <div class="chapter-header">CHAPTER 03 · WORK <span class="jp">作 品</span></div>
-    <h2 class="section-title reveal">SELECTED PROJECTS.</h2>
-    <div class="work-grid">
-      <article class="work-card reveal">
-        <div class="work-num">あ / 001</div>
-        <div class="work-tags"><span>BRANDING</span><span>WEB</span></div>
-        <h3 class="work-name">ELEVATE</h3>
-        <p class="work-desc">Complete brand identity and website for a fintech startup entering the Indian market.</p>
-      </article>
-      <article class="work-card reveal">
-        <div class="work-num">い / 002</div>
-        <div class="work-tags"><span>WEB DEV</span></div>
-        <h3 class="work-name">NEXORA</h3>
-        <p class="work-desc">E-commerce platform built for a D2C skincare brand with custom checkout flow.</p>
-      </article>
-      <article class="work-card reveal">
-        <div class="work-num">う / 003</div>
-        <div class="work-tags"><span>SOCIAL</span><span>CAMPAIGN</span></div>
-        <h3 class="work-name">PULSE</h3>
-        <p class="work-desc">Month-long Instagram campaign that grew a fitness brand from 2K to 15K followers.</p>
-      </article>
-    </div>
-  </div>
-</section>
-
-<section class="section" id="process">
-  <div class="container">
-    <div class="chapter-header">CHAPTER 04 · PROCESS <span class="jp">方 法</span></div>
-    <h2 class="section-title reveal">HOW WE WORK.</h2>
-    <div class="process-grid">
-      <div class="process-step reveal">
-        <div class="num">01</div>
-        <h3 class="title">CLARIFY BRIEF</h3>
-        <p class="desc">We ask hard questions upfront. Goals, constraints, audience, and success metrics. No guesswork.</p>
+    <section class="section" id="about" aria-labelledby="about-title">
+      <div class="chapter reveal">CHAPTER 01 · ABOUT / <span class="jp">私 た ち</span></div>
+      <h2 class="section-title reveal" id="about-title">SMALL TEAM.<br>LOUD RESULTS.</h2>
+      <div class="about-layout">
+        <div class="stats">
+          <div class="stat reveal"><strong>5</strong><span>Services</span></div>
+          <div class="stat reveal"><strong>50+</strong><span>Projects</span></div>
+          <div class="stat reveal"><strong>3</strong><span>Years</span></div>
+          <div class="stat reveal"><strong>1</strong><span>City / Hyderabad</span></div>
+        </div>
+        <div class="about-copy">
+          <div class="side-jp" aria-hidden="true">私たち</div>
+          <p class="reveal">VALA WORKS is a Hyderabad creative marketing studio for founders, local businesses, and challenger brands that need a stronger digital presence.</p>
+          <p class="reveal">We combine brand thinking, performance funnels, content production, social media systems, and fast web builds into one focused rollout. The work is strategic first, visual second, and always built around the customer action that matters.</p>
+          <p class="reveal">Our team stays lean so the process stays direct. No vague decks, no recycled templates, no noisy agency theatre. Just clear positioning, sharp creative, and measurable launches.</p>
+        </div>
       </div>
-      <div class="process-step reveal">
-        <div class="num">02</div>
-        <h3 class="title">SHAPE ROLLOUT</h3>
-        <p class="desc">Strategy, design, and content come together in a coherent plan. You see progress weekly.</p>
-      </div>
-      <div class="process-step reveal">
-        <div class="num">03</div>
-        <h3 class="title">LAUNCH & REFINE</h3>
-        <p class="desc">We ship, measure, and iterate. Growth is a conversation, not a one-time event.</p>
-      </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<section class="section" id="faq">
-  <div class="container">
-    <div class="chapter-header">CHAPTER 05 · FAQ <span class="jp">よ く あ る 質 問</span></div>
-    <h2 class="section-title reveal">QUESTIONS.</h2>
-    <div class="faq-item reveal">
-      <button class="faq-q">What services does VALA WORKS offer? <span class="icon">+</span></button>
-      <div class="faq-a"><p>We offer brand strategy, performance marketing, content creation, social media management, and web design. Everything you need to build and grow a brand online.</p></div>
-    </div>
-    <div class="faq-item reveal">
-      <button class="faq-q">How much does a typical project cost? <span class="icon">+</span></button>
-      <div class="faq-a"><p>It depends on scope. A brand identity starts around Rs. 50,000. A full website starts around Rs. 1,00,000. We quote transparently after our first call.</p></div>
-    </div>
-    <div class="faq-item reveal">
-      <button class="faq-q">How long does a project take? <span class="icon">+</span></button>
-      <div class="faq-a"><p>Brand projects take 3–4 weeks. Websites take 4–8 weeks. Ongoing retainers are monthly. We always give you a clear timeline before we start.</p></div>
-    </div>
-    <div class="faq-item reveal">
-      <button class="faq-q">Do you work with clients outside Hyderabad? <span class="icon">+</span></button>
-      <div class="faq-a"><p>Yes. We work with clients across India and internationally. Most of our communication happens over video calls and Slack.</p></div>
-    </div>
-    <div class="faq-item reveal">
-      <button class="faq-q">What is your design process? <span class="icon">+</span></button>
-      <div class="faq-a"><p>Discovery → Strategy → Design → Build → Launch → Iterate. You are involved at every step. No surprises at the finish line.</p></div>
-    </div>
-  </div>
-</section>
+    <section class="section" id="services" aria-labelledby="services-title">
+      <div class="chapter reveal">CHAPTER 02 · SERVICES / <span class="jp">サ ー ビ ス</span></div>
+      <h2 class="section-title reveal" id="services-title">WHAT WE<br>MAKE MOVE.</h2>
+      <div class="services-list">
+        <a class="service-row reveal" href="#contact">
+          <span class="service-num">あ</span>
+          <h3 class="service-name">Brand Strategy</h3>
+          <span class="tag">Positioning</span>
+          <p class="service-desc">Clear audience, voice, offers, and identity direction before a single post goes live.</p>
+          <span class="service-arrow">→</span>
+        </a>
+        <a class="service-row reveal" href="#contact">
+          <span class="service-num">い</span>
+          <h3 class="service-name">Performance Marketing</h3>
+          <span class="tag">Growth</span>
+          <p class="service-desc">Conversion-first paid campaigns across search and social with practical reporting.</p>
+          <span class="service-arrow">→</span>
+        </a>
+        <a class="service-row reveal" href="#contact">
+          <span class="service-num">う</span>
+          <h3 class="service-name">Content Creation</h3>
+          <span class="tag">Creative</span>
+          <p class="service-desc">Reels, posts, scripts, captions, shoots, edits, and campaign assets with a system.</p>
+          <span class="service-arrow">→</span>
+        </a>
+        <a class="service-row reveal" href="#contact">
+          <span class="service-num">え</span>
+          <h3 class="service-name">Social Media Management</h3>
+          <span class="tag">Community</span>
+          <p class="service-desc">Monthly calendars, publishing, account hygiene, and growth direction for active brands.</p>
+          <span class="service-arrow">→</span>
+        </a>
+        <a class="service-row reveal" href="#contact">
+          <span class="service-num">お</span>
+          <h3 class="service-name">Web Design & Development</h3>
+          <span class="tag">Digital</span>
+          <p class="service-desc">Fast, responsive websites that feel premium and turn attention into enquiries.</p>
+          <span class="service-arrow">→</span>
+        </a>
+      </div>
+    </section>
 
-<section class="section" id="contact">
-  <div class="container">
-    <div class="chapter-header">CHAPTER 06 · TALK <span class="jp">連 絡</span></div>
-    <div class="contact-grid">
-      <div>
-        <h2 class="contact-heading reveal">MAIL US.</h2>
-        <div class="contact-links">
-          <a href="mailto:valaworks3@gmail.com" class="contact-link reveal">
-            <span>EMAIL</span>
-            <span>valaworks3@gmail.com ↗</span>
-          </a>
-          <a href="https://instagram.com/valaworks3" target="_blank" rel="noopener" class="contact-link reveal">
-            <span>INSTAGRAM</span>
-            <span>@valaworks3 ↗</span>
-          </a>
-          <a href="tel:+916301003066" class="contact-link reveal">
-            <span>PHONE</span>
-            <span>+91 63010 03066 ↗</span>
-          </a>
-          <div class="contact-link reveal" style="cursor:default">
-            <span>LOCATION</span>
-            <span>HYDERABAD, INDIA</span>
+    <section class="section" id="work" aria-labelledby="work-title">
+      <div class="chapter reveal">CHAPTER 03 · WORK / <span class="jp">作 品</span></div>
+      <h2 class="section-title reveal" id="work-title">SELECTED<br>OUTPUT.</h2>
+      <div class="work-grid">
+        <article class="work-card reveal" data-jp="あ">
+          <div class="work-meta"><span>001</span><div class="work-tags"><span>Branding</span><span>Web</span></div></div>
+          <h3 class="work-name">Elevate</h3>
+          <p class="work-desc">A premium identity and landing experience for a service brand moving into a sharper market position.</p>
+        </article>
+        <article class="work-card reveal" data-jp="い">
+          <div class="work-meta"><span>002</span><div class="work-tags"><span>Web Dev</span></div></div>
+          <h3 class="work-name">Nexora</h3>
+          <p class="work-desc">A fast product-led website built to explain the offer, establish trust, and route visitors to sales.</p>
+        </article>
+        <article class="work-card reveal" data-jp="う">
+          <div class="work-meta"><span>003</span><div class="work-tags"><span>Social</span><span>Campaign</span></div></div>
+          <h3 class="work-name">Pulse</h3>
+          <p class="work-desc">A short-form campaign system for a youth-facing brand that needed higher recall and weekly momentum.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="process" aria-labelledby="process-title">
+      <div class="chapter reveal">CHAPTER 04 · PROCESS / <span class="jp">方 法</span></div>
+      <h2 class="section-title reveal" id="process-title">FROM BRIEF<br>TO SIGNAL.</h2>
+      <div class="process-grid">
+        <article class="process-step reveal">
+          <p class="process-num">01</p>
+          <h3>Clarify Brief</h3>
+          <p>We define the target customer, offer, market context, message, channels, constraints, and the result the project must create.</p>
+        </article>
+        <article class="process-step reveal">
+          <p class="process-num">02</p>
+          <h3>Shape Rollout</h3>
+          <p>We turn the strategy into a clear visual direction, content plan, web structure, campaign map, and weekly production rhythm.</p>
+        </article>
+        <article class="process-step reveal">
+          <p class="process-num">03</p>
+          <h3>Launch & Refine</h3>
+          <p>We publish, track, learn, and improve the system so the brand keeps getting sharper after the first release.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="faq" aria-labelledby="faq-title">
+      <div class="chapter reveal">CHAPTER 05 · FAQ / <span class="jp">よ く あ る 質 問</span></div>
+      <h2 class="section-title reveal" id="faq-title">COMMON<br>QUESTIONS.</h2>
+      <div class="faq-list">
+        <article class="faq-item reveal">
+          <button class="faq-question" type="button" aria-expanded="false">
+            <span class="faq-index">01</span>
+            <span>What services does VALA WORKS offer?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>We handle brand strategy, performance marketing, content creation, social media management, and web design and development.</p>
+          </div>
+        </article>
+        <article class="faq-item reveal">
+          <button class="faq-question" type="button" aria-expanded="false">
+            <span class="faq-index">02</span>
+            <span>Do you work with new businesses?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Yes. We work with early-stage brands, founders, and local businesses that need a clear launch, stronger identity, or consistent marketing engine.</p>
+          </div>
+        </article>
+        <article class="faq-item reveal">
+          <button class="faq-question" type="button" aria-expanded="false">
+            <span class="faq-index">03</span>
+            <span>How long does a project take?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Most focused brand or website projects take 3 to 6 weeks. Ongoing content and marketing retainers run monthly with weekly checkpoints.</p>
+          </div>
+        </article>
+        <article class="faq-item reveal">
+          <button class="faq-question" type="button" aria-expanded="false">
+            <span class="faq-index">04</span>
+            <span>Can you manage social media every month?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Yes. We create calendars, captions, designs, reels direction, scheduling, reporting, and monthly optimization for Instagram and other key channels.</p>
+          </div>
+        </article>
+        <article class="faq-item reveal">
+          <button class="faq-question" type="button" aria-expanded="false">
+            <span class="faq-index">05</span>
+            <span>How do we start?</span>
+            <span class="faq-icon">+</span>
+          </button>
+          <div class="faq-answer">
+            <p>Send a short brief through the form or email us. We will reply with next questions, scope direction, timeline, and a practical starting plan.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="contact" aria-labelledby="contact-title">
+      <div class="chapter reveal">CHAPTER 06 · TALK / <span class="jp">連 絡</span></div>
+      <div class="contact-layout">
+        <div>
+          <h2 class="contact-title reveal" id="contact-title">MAIL<br>US.</h2>
+          <div class="contact-links">
+            <a class="contact-link reveal" href="mailto:valaworks3@gmail.com">
+              <span class="contact-label">Email</span>
+              <span class="contact-value">valaworks3@gmail.com</span>
+              <span class="contact-arrow">↗</span>
+            </a>
+            <a class="contact-link reveal" href="https://www.instagram.com/vala_works/" target="_blank" rel="noopener">
+              <span class="contact-label">Instagram</span>
+              <span class="contact-value">@vala_works</span>
+              <span class="contact-arrow">↗</span>
+            </a>
+            <a class="contact-link reveal" href="tel:+916301003066">
+              <span class="contact-label">Phone</span>
+              <span class="contact-value">6301003066</span>
+              <span class="contact-arrow">↗</span>
+            </a>
+            <div class="contact-link reveal" aria-label="Location Hyderabad India">
+              <span class="contact-label">Location</span>
+              <span class="contact-value">Hyderabad India</span>
+              <span class="contact-arrow">↗</span>
+            </div>
           </div>
         </div>
+
+        <form class="form reveal" id="brief-form" action="mailto:valaworks3@gmail.com" method="POST" enctype="text/plain">
+          <div class="form-head">
+            <span>PROJECT BRIEF</span>
+            <span>NO. 001</span>
+          </div>
+          <div class="field">
+            <label for="name">Name</label>
+            <input id="name" name="Name" type="text" placeholder="Your name" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="Email" type="email" placeholder="you@company.com" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="company">Company</label>
+            <input id="company" name="Company" type="text" placeholder="Brand / company name" autocomplete="organization">
+          </div>
+          <div class="field">
+            <label for="budget">Budget</label>
+            <select id="budget" name="Budget" required>
+              <option value="" selected disabled>Select range</option>
+              <option>Under Rs. 50,000</option>
+              <option>Rs. 50,000 - 1 Lakh</option>
+              <option>Rs. 1 - 5 Lakhs</option>
+              <option>Rs. 5 Lakhs+</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="details">Project Details</label>
+            <textarea id="details" name="Project Details" placeholder="Tell us what you want to build, improve, launch, or grow." required></textarea>
+          </div>
+          <div class="submit-row">
+            <p class="status" id="form-status" role="status" aria-live="polite"></p>
+            <button class="btn btn-primary" type="submit">Submit Brief →</button>
+          </div>
+        </form>
       </div>
-      <form class="contact-form" id="contact-form" action="https://formspree.io/f/xnqkvegv" method="POST">
-        <div class="form-group reveal">
-          <label>NAME</label>
-          <input type="text" name="name" placeholder="Your name" required>
-        </div>
-        <div class="form-group reveal">
-          <label>EMAIL</label>
-          <input type="email" name="email" placeholder="you@company.com" required>
-        </div>
-        <div class="form-group reveal">
-          <label>COMPANY</label>
-          <input type="text" name="company" placeholder="Company name">
-        </div>
-        <div class="form-group reveal">
-          <label>BUDGET</label>
-          <select name="budget">
-            <option value="" disabled selected>Select range</option>
-            <option>Under Rs. 50,000</option>
-            <option>Rs. 50,000 — 1 Lakh</option>
-            <option>Rs. 1 — 5 Lakhs</option>
-            <option>Rs. 5 Lakhs+</option>
-          </select>
-        </div>
-        <div class="form-group reveal">
-          <label>PROJECT DETAILS</label>
-          <textarea name="message" rows="4" placeholder="Tell us about your project..." required></textarea>
-        </div>
-        <button type="submit" class="form-submit reveal">SEND MESSAGE →</button>
-        <div class="form-status" id="form-status"></div>
-      </form>
-    </div>
-  </div>
-</section>
+    </section>
+  </main>
 
-</main>
+  <footer class="footer">
+    <p>© 2026 VALA WORKS&nbsp;&nbsp; SET IN ZEN KAKU GOTHIC NEW + JETBRAINS MONO&nbsp;&nbsp; あ り が と う</p>
+  </footer>
 
-<footer class="footer">
-  <p>© 2026 VALA WORKS  SET IN ZEN KAKU GOTHIC NEW + JETBRAINS MONO  <span class="jp">あ り が と う</span></p>
-</footer>
+  <script>
+    const nav = document.querySelector(".nav");
+    const menuButton = document.querySelector(".menu-toggle");
+    const mobileMenu = document.querySelector("#mobile-menu");
+    const cursor = document.querySelector(".cursor");
+    const ring = document.querySelector(".cursor-ring");
 
-<script>
-// Theme Toggle
-const themeToggle = document.getElementById('theme-toggle');
-const html = document.documentElement;
-let currentTheme = localStorage.getItem('theme') || 'dark';
-html.setAttribute('data-theme', currentTheme);
+    const setNavState = () => {
+      nav.classList.toggle("is-scrolled", window.scrollY > 16);
+    };
 
-themeToggle.addEventListener('click', () => {
-  currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
-  html.setAttribute('data-theme', currentTheme);
-  localStorage.setItem('theme', currentTheme);
-});
+    setNavState();
+    window.addEventListener("scroll", setNavState, { passive: true });
 
-// Custom Cursor
-const cursor = document.getElementById('cursor');
-const cursorDot = cursor.querySelector('.cursor-dot');
-const cursorCircle = cursor.querySelector('.cursor-circle');
-let cx = 0, cy = 0, dx = 0, dy = 0, crx = 0, cry = 0;
-
-if (window.matchMedia('(pointer: fine)').matches) {
-  document.addEventListener('mousemove', (e) => {
-    cx = e.clientX; cy = e.clientY;
-  });
-  function loop() {
-    dx += (cx - dx) * 0.2;
-    dy += (cy - dy) * 0.2;
-    crx += (cx - crx) * 0.1;
-    cry += (cy - cry) * 0.1;
-    cursorDot.style.transform = `translate(${dx}px,${dy}px) translate(-50%,-50%)`;
-    cursorCircle.style.transform = `translate(${crx}px,${cry}px) translate(-50%,-50%)`;
-    requestAnimationFrame(loop);
-  }
-  loop();
-
-  document.querySelectorAll('a, button, .service-row, .work-card, .faq-q').forEach(el => {
-    el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-    el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-  });
-}
-
-// Nav Scroll
-const nav = document.getElementById('nav');
-window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 50);
-}, {passive:true});
-
-// Mobile Menu
-const hamburger = document.getElementById('hamburger');
-const mobileMenu = document.getElementById('mobile-menu');
-
-hamburger.addEventListener('click', () => {
-  const open = mobileMenu.classList.toggle('open');
-  hamburger.classList.toggle('active', open);
-  document.body.style.overflow = open ? 'hidden' : '';
-});
-
-document.querySelectorAll('.mobile-links a').forEach(link => {
-  link.addEventListener('click', () => {
-    mobileMenu.classList.remove('open');
-    hamburger.classList.remove('active');
-    document.body.style.overflow = '';
-  });
-});
-
-// Scroll Reveal
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      observer.unobserve(entry.target);
-    }
-  });
-}, {threshold: 0.1, rootMargin: '0px 0px -50px 0px'});
-
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-// FAQ Accordion
-document.querySelectorAll('.faq-q').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const isOpen = btn.classList.contains('active');
-    document.querySelectorAll('.faq-q').forEach(b => {
-      b.classList.remove('active');
-      b.nextElementSibling.classList.remove('open');
+    menuButton.addEventListener("click", () => {
+      const open = !mobileMenu.classList.contains("is-open");
+      mobileMenu.classList.toggle("is-open", open);
+      menuButton.classList.toggle("is-open", open);
+      menuButton.setAttribute("aria-expanded", String(open));
+      menuButton.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+      mobileMenu.setAttribute("aria-hidden", String(!open));
+      document.body.style.overflow = open ? "hidden" : "";
     });
-    if (!isOpen) {
-      btn.classList.add('active');
-      btn.nextElementSibling.classList.add('open');
-    }
-  });
-});
 
-// Contact Form
-const form = document.getElementById('contact-form');
-const status = document.getElementById('form-status');
-
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const btn = form.querySelector('.form-submit');
-  const original = btn.textContent;
-  btn.textContent = 'SENDING...';
-  btn.disabled = true;
-
-  try {
-    const res = await fetch(form.action, {
-      method: 'POST',
-      body: new FormData(form),
-      headers: {Accept: 'application/json'}
+    mobileMenu.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        mobileMenu.classList.remove("is-open");
+        menuButton.classList.remove("is-open");
+        menuButton.setAttribute("aria-expanded", "false");
+        mobileMenu.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+      });
     });
-    if (res.ok) {
-      status.textContent = 'Message sent. We will reply within 24 hours.';
-      form.reset();
-    } else {
-      throw new Error('Failed');
-    }
-  } catch {
-    status.textContent = 'Error. Please email us directly at valaworks3@gmail.com';
-  } finally {
-    btn.textContent = original;
-    btn.disabled = false;
-  }
-});
 
-// Hero Animation on Load
-window.addEventListener('load', () => {
-  document.querySelectorAll('.hero-title span, .hero-sub, .hero-body, .hero-actions, .hero-meta').forEach((el, i) => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(30px)';
-    el.style.transition = `opacity 1s cubic-bezier(.16,1,.3,1) ${i * 0.1}s, transform 1s cubic-bezier(.16,1,.3,1) ${i * 0.1}s`;
-    requestAnimationFrame(() => {
-      el.style.opacity = '1';
-      el.style.transform = 'translateY(0)';
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.16, rootMargin: "0px 0px -60px 0px" });
+
+    document.querySelectorAll(".reveal").forEach((item) => revealObserver.observe(item));
+
+    document.querySelectorAll(".faq-question").forEach((button) => {
+      button.addEventListener("click", () => {
+        const answer = button.nextElementSibling;
+        const isOpen = button.getAttribute("aria-expanded") === "true";
+
+        document.querySelectorAll(".faq-question").forEach((otherButton) => {
+          otherButton.setAttribute("aria-expanded", "false");
+          otherButton.nextElementSibling.style.maxHeight = "0px";
+        });
+
+        if (!isOpen) {
+          button.setAttribute("aria-expanded", "true");
+          answer.style.maxHeight = answer.scrollHeight + "px";
+        }
+      });
     });
-  });
-});
-</script>
+
+    const form = document.querySelector("#brief-form");
+    const formStatus = document.querySelector("#form-status");
+
+    form.addEventListener("submit", (event) => {
+      formStatus.textContent = "Message sent!";
+      const submitter = form.querySelector("button[type='submit']");
+      submitter.textContent = "Message Sent";
+      submitter.disabled = true;
+
+      window.setTimeout(() => {
+        submitter.textContent = "Submit Brief →";
+        submitter.disabled = false;
+      }, 2400);
+    });
+
+    if (window.matchMedia("(pointer: fine)").matches) {
+      let x = window.innerWidth / 2;
+      let y = window.innerHeight / 2;
+      let dotX = x;
+      let dotY = y;
+      let ringX = x;
+      let ringY = y;
+
+      window.addEventListener("mousemove", (event) => {
+        x = event.clientX;
+        y = event.clientY;
+      }, { passive: true });
+
+      const animateCursor = () => {
+        dotX += (x - dotX) * .38;
+        dotY += (y - dotY) * .38;
+        ringX += (x - ringX) * .16;
+        ringY += (y - ringY) * .16;
+        cursor.style.transform = `translate(${dotX}px, ${dotY}px) translate(-50%, -50%)`;
+        ring.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
+        requestAnimationFrame(animateCursor);
+      };
+
+      animateCursor();
+
+      document.querySelectorAll("a, button, input, select, textarea, .service-row, .work-card").forEach((item) => {
+        item.addEventListener("mouseenter", () => ring.classList.add("is-hover"));
+        item.addEventListener("mouseleave", () => ring.classList.remove("is-hover"));
+      });
+    }
+  </script>
 </body>
 </html>
