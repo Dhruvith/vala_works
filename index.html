@@ -1974,7 +1974,7 @@
           </div>
         </div>
 
-        <form class="form reveal" id="brief-form" action="https://formsubmit.co/ajax/valaworks3@gmail.com" method="POST">
+        <form class="form reveal" id="brief-form" action="/api/contact" method="POST">
           <div class="form-head">
             <span>PROJECT BRIEF</span>
             <span>NO. 001</span>
@@ -2022,6 +2022,7 @@
     <p>© 2026 VALA WORKS&nbsp;&nbsp; SET IN ZEN KAKU GOTHIC NEW + JETBRAINS MONO&nbsp;&nbsp; あ り が と う</p>
   </footer>
 
+  <!--
   <section class="voice-widget" id="voice-widget" aria-label="VALA WORKS voice assistant">
     <div class="voice-panel" id="voice-panel" aria-live="polite">
       <div class="voice-panel-head">
@@ -2047,6 +2048,7 @@
     </div>
     <button class="voice-toggle" id="voice-toggle" type="button" aria-expanded="false" aria-controls="voice-panel">Talk to us</button>
   </section>
+  -->
 
   <script>
     const nav = document.querySelector(".nav");
@@ -2173,10 +2175,14 @@
       submitter.disabled = true;
 
       try {
+        const formData = new FormData(form);
         const response = await fetch(form.action, {
           method: "POST",
-          body: new FormData(form),
-          headers: { "Accept": "application/json" }
+          headers: {
+            "Accept": "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(Object.fromEntries(formData.entries()))
         });
 
         if (!response.ok) {
@@ -2215,6 +2221,8 @@
     const voiceUserText = document.querySelector("#voice-user-text");
     const voiceAiText = document.querySelector("#voice-ai-text");
     const voiceNote = document.querySelector("#voice-note");
+
+    if (voiceWidget && voiceToggle && voiceEnd && voiceListen && voiceStatus && voiceUserText && voiceAiText && voiceNote) {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     let recognition = null;
     let conversationHistory = [];
@@ -2440,6 +2448,7 @@
     });
 
     voiceEnd.addEventListener("click", closeVoiceWidget);
+    }
   </script>
 </body>
 </html>
