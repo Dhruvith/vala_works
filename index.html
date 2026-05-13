@@ -1974,7 +1974,7 @@
           </div>
         </div>
 
-        <form class="form reveal" id="brief-form" action="/api/contact" method="POST">
+        <form class="form reveal" id="brief-form" action="https://formsubmit.co/ajax/valaworks3@gmail.com" method="POST">
           <div class="form-head">
             <span>PROJECT BRIEF</span>
             <span>NO. 001</span>
@@ -2175,14 +2175,10 @@
       submitter.disabled = true;
 
       try {
-        const formData = new FormData(form);
         const response = await fetch(form.action, {
           method: "POST",
-          headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(Object.fromEntries(formData.entries()))
+          body: new FormData(form),
+          headers: { "Accept": "application/json" }
         });
 
         if (!response.ok) {
@@ -2193,18 +2189,8 @@
         formStatus.textContent = "Message sent!";
         submitter.textContent = "Message Sent";
       } catch (error) {
-        const data = new FormData(form);
-        const subject = encodeURIComponent("New VALA WORKS project brief");
-        const body = encodeURIComponent(
-          `Name: ${data.get("Name") || ""}\n` +
-          `Email: ${data.get("Email") || ""}\n` +
-          `Company: ${data.get("Company") || ""}\n` +
-          `Budget: ${data.get("Budget") || ""}\n\n` +
-          `Project Details:\n${data.get("Project Details") || ""}`
-        );
         formStatus.classList.add("is-error");
-        formStatus.textContent = "Opening email fallback...";
-        window.location.href = `mailto:valaworks3@gmail.com?subject=${subject}&body=${body}`;
+        formStatus.textContent = "Could not send. Please try again in a moment.";
       } finally {
         window.setTimeout(() => {
           submitter.textContent = originalText;
