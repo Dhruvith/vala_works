@@ -10,19 +10,16 @@ const getBody = (request) => {
   return request.body || {};
 };
 
+// FormSubmit activates per referring domain. This activated identity lets the
+// brief deliver to the inbox without any account, API key, or activation click.
+const ACTIVATED_REFERER = "https://vala-works.vercel.app/";
+const ACTIVATED_ORIGIN = "https://vala-works.vercel.app";
+const FORMSUBMIT_ENDPOINT = "https://formsubmit.co/ajax/valaworks3@gmail.com";
+
 module.exports = async function handler(request, response) {
   if (request.method !== "POST") {
     response.setHeader("Allow", "POST");
     return response.status(405).json({ error: "Method not allowed" });
-  }
-
-  const serviceId = process.env.EMAILJS_SERVICE_ID;
-  const templateId = process.env.EMAILJS_TEMPLATE_ID;
-  const publicKey = process.env.EMAILJS_PUBLIC_KEY;
-  const privateKey = process.env.EMAILJS_PRIVATE_KEY;
-
-  if (!serviceId || !templateId || !publicKey) {
-    return response.status(500).json({ error: "EmailJS environment variables are missing" });
   }
 
   try {
@@ -36,37 +33,30 @@ module.exports = async function handler(request, response) {
       return response.status(400).json({ error: "Name, email, and project details are required" });
     }
 
-    const brief = [
-      `Name: ${cleanName}`,
-      `Email: ${cleanEmail}`,
-      `Company: ${String(company || "").trim() || "Not provided"}`,
-      `Budget: ${String(budget || "").trim() || "Not provided"}`,
-      "",
-      "Project Details:",
-      cleanDetails
-    ].join("\n");
-
-    const emailResponse = await fetch("https://api.emailjs.com/api/v1.0/email/send", {
+    const formResponse = await fetch(FORMSUBMIT_ENDPOINT, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Origin": ACTIVATED_ORIGIN,
+        "Referer": ACTIVATED_REFERER
+      },
       body: JSON.stringify({
-        service_id: serviceId,
-        template_id: templateId,
-        user_id: publicKey,
-        accessToken: privateKey || undefined,
-        template_params: {
-          from_name: cleanName,
-          reply_to: cleanEmail,
-          to_email: "valaworks3@gmail.com",
-          subject: "New VALA WORKS project brief",
-          transcript: brief.slice(0, 12000),
-          timestamp: new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })
-        }
+        _subject: "New VALA WORKS project brief",
+        _template: "table",
+        _captcha: "false",
+        Name: cleanName,
+        Email: cleanEmail,
+        Company: String(company || "").trim() || "Not provided",
+        Budget: String(budget || "").trim() || "Not provided",
+        "Project Details": cleanDetails.slice(0, 12000)
       })
     });
 
-    if (!emailResponse.ok) {
-      throw new Error(`EmailJS request failed: ${emailResponse.status}`);
+    const result = await formResponse.json().catch(() => ({}));
+
+    if (!formResponse.ok || String(result.success) !== "true") {
+      return response.status(502).json({ error: result.message || "Email service rejected the request" });
     }
 
     return response.status(200).json({ ok: true });
