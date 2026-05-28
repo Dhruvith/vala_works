@@ -1974,11 +1974,14 @@
           </div>
         </div>
 
-        <form class="form reveal" id="brief-form" action="/api/contact" method="POST">
+        <form class="form reveal" id="brief-form" action="https://formsubmit.co/ajax/valaworks3@gmail.com" method="POST">
           <div class="form-head">
             <span>PROJECT BRIEF</span>
             <span>NO. 001</span>
           </div>
+          <input type="hidden" name="_subject" value="New VALA WORKS project brief">
+          <input type="hidden" name="_template" value="table">
+          <input type="hidden" name="_captcha" value="false">
           <input type="text" name="_honey" class="hp-field" tabindex="-1" autocomplete="off" aria-hidden="true">
           <div class="field">
             <label for="name">Name</label>
@@ -2172,24 +2175,16 @@
       submitter.disabled = true;
 
       try {
-        const payload = {
-          name: form.querySelector("#name").value,
-          email: form.querySelector("#email").value,
-          company: form.querySelector("#company").value,
-          budget: form.querySelector("#budget").value,
-          details: form.querySelector("#details").value
-        };
-
-        const response = await fetch("/api/contact", {
+        const response = await fetch(form.action, {
           method: "POST",
-          headers: { "Content-Type": "application/json", "Accept": "application/json" },
-          body: JSON.stringify(payload)
+          body: new FormData(form),
+          headers: { "Accept": "application/json" }
         });
 
         const result = await response.json().catch(() => ({}));
 
-        if (!response.ok || !result.ok) {
-          throw new Error(result.error || "Form endpoint rejected the request");
+        if (!response.ok || String(result.success) !== "true") {
+          throw new Error(result.message || "Form endpoint rejected the request");
         }
 
         form.reset();
